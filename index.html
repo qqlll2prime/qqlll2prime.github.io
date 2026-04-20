@@ -43,9 +43,124 @@
             z-index: -1;
         }
 
+        /* ===== 导航栏 ===== */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .nav-logo span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            background: rgba(255, 56, 80, 0.1);
+        }
+
+        /* 汉堡菜单按钮（手机端显示） */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-toggle.open span:nth-child(2) { opacity: 0; }
+        .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* 手机端下拉菜单 */
+        .nav-drawer {
+            display: none;
+            flex-direction: column;
+            padding: 0.5rem 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.97);
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .nav-drawer.open {
+            display: flex;
+        }
+
+        .nav-drawer .nav-link {
+            padding: 0.65rem 0.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 1rem;
+        }
+
+        .nav-drawer .nav-link:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== Hero ===== */
         .hero {
             position: relative;
-            height: 80vh;
+            min-height: 80vh;
             background: none;
             display: flex;
             align-items: center;
@@ -53,17 +168,14 @@
             text-align: center;
             color: var(--light-text);
             overflow: hidden;
-            margin-top: 70px;
-            padding: 2rem;
+            margin-top: 60px;
+            padding: 2rem 1rem;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: linear-gradient(45deg, rgba(25, 118, 210, 0.1), rgba(3, 169, 244, 0.1));
             background-size: 400% 400%;
             animation: gradientAnimation 15s ease infinite;
@@ -71,23 +183,14 @@
         }
 
         @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .floating-icons {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             overflow: hidden;
             z-index: 1;
         }
@@ -100,25 +203,16 @@
         }
 
         @keyframes float {
-            0% {
-                transform: translate(0, 100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(0, -100vh) rotate(360deg);
-                opacity: 0;
-            }
+            0%   { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translate(0, -100vh) rotate(360deg); opacity: 0; }
         }
 
         .hero-content {
-            max-width: 800px;
-            padding: 3rem 2rem;
+            max-width: 720px;
+            width: 100%;
+            padding: 2.5rem 1.5rem;
             z-index: 2;
             position: relative;
             background: rgba(0, 0, 0, 0.3);
@@ -128,9 +222,14 @@
             animation: fadeInUp 1.5s ease-out;
         }
 
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
         .company-logo {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             margin: 0 auto 1rem;
             display: block;
@@ -139,12 +238,90 @@
         }
 
         @keyframes rotateLogo {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .company-name {
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 56, 80, 0.5), 0 0 20px rgba(255, 56, 80, 0.3);
+            position: relative;
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255,56,80,.5), 0 0 20px rgba(255,56,80,.3); }
+            to   { text-shadow: 0 0 20px rgba(255,56,80,.7), 0 0 30px rgba(255,56,80,.5); }
+        }
+
+        .company-name::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: lineWidth 3s ease-in-out infinite;
+        }
+
+        @keyframes lineWidth {
+            0%,100% { width: 0; left: 50%; }
+            50%      { width: 100%; left: 0; }
+        }
+
+        .slogan {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--light-text);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover { background-color: #e62e43; }
+
+        /* ===== 关于我们 ===== */
+        .about-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(25, 118, 210, 0.05), rgba(3, 169, 244, 0.05));
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .about-content {
@@ -156,106 +333,27 @@
 
         .about-logo {
             flex-shrink: 0;
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 10px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
-        .about-logo:hover {
-            transform: scale(1.05);
-        }
+        .about-logo:hover { transform: scale(1.05); }
 
-        .about-text {
-            flex: 1;
-        }
+        .about-text { flex: 1; line-height: 1.8; }
 
-        .company-name {
-            font-size: 2.8rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(255, 56, 80, 0.5),
-                         0 0 20px rgba(255, 56, 80, 0.3),
-                         0 0 30px rgba(255, 56, 80, 0.2);
-            position: relative;
-            display: inline-block;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 56, 80, 0.5),
-                            0 0 20px rgba(255, 56, 80, 0.3),
-                            0 0 30px rgba(255, 56, 80, 0.2);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(255, 56, 80, 0.7),
-                            0 0 30px rgba(255, 56, 80, 0.5),
-                            0 0 40px rgba(255, 56, 80, 0.3);
-            }
-        }
-
-        .company-name::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-            animation: lineWidth 3s ease-in-out infinite;
-        }
-
-        @keyframes lineWidth {
-            0%, 100% {
-                width: 0;
-                left: 50%;
-            }
-            50% {
-                width: 100%;
-                left: 0;
-            }
-        }
-
-        .slogan {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--light-text);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .about-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 4rem 2rem;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .about-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(25, 118, 210, 0.05), rgba(3, 169, 244, 0.05));
-            pointer-events: none;
-        }
-
+        /* ===== 图片轮播 ===== */
         .image-showcase {
-            margin: 3rem auto;
+            margin: 2.5rem auto;
             max-width: 1000px;
-            position: relative;
-            overflow: hidden;
         }
 
         .showcase-container {
             position: relative;
             width: 100%;
-            height: 400px;
+            padding-top: 45%;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -263,6 +361,7 @@
 
         .showcase-image {
             position: absolute;
+            top: 0; left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -270,15 +369,13 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        .showcase-image.active {
-            opacity: 1;
-        }
+        .showcase-image.active { opacity: 1; }
 
         .showcase-dots {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
         }
 
         .dot {
@@ -295,145 +392,38 @@
             transform: scale(1.2);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.98));
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s ease;
-            text-decoration: none;
-            color: var(--text-color);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
-
-        .service-card:hover::before {
-            left: 100%;
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover .service-icon {
-            transform: scale(1.2) rotate(360deg);
-        }
-
-        .service-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-        }
-
-        .service-description {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: #e62e43;
-        }
-
+        /* ===== 联系+合作 区域 ===== */
         .partners-contact-section {
-            background: rgba(26, 35, 126, 0.9);
-            padding: 4rem 2rem;
+            padding: 3.5rem 1.5rem;
             color: var(--light-text);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(40, 40, 40, 0.9));
-        }
-
-        .partners-contact-section::before {
-            display: none;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.92), rgba(40, 40, 40, 0.92));
         }
 
         .partners-contact-container {
             display: flex;
-            gap: 4rem;
+            gap: 3rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .partners-wrapper {
-            flex: 2;
-        }
+        .partners-wrapper { flex: 2; }
+        .contact-wrapper  { flex: 1; min-width: 260px; }
 
-        .contact-wrapper {
-            flex: 1;
-            min-width: 300px;
-        }
-
+        /* 合作伙伴 */
         .partners-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.2rem;
+            gap: 1rem;
             margin-top: 2rem;
             justify-items: center;
-            align-items: center;
-            animation: fadeIn 1s ease-out;
         }
 
         .partner-item {
             text-align: center;
             transition: all 0.4s ease;
-            padding: 0.8rem;
+            padding: 0.7rem;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 8px;
@@ -450,7 +440,7 @@
         .partner-logo {
             width: 70px;
             height: 35px;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             filter: grayscale(100%);
             transition: all 0.4s ease;
             object-fit: contain;
@@ -463,32 +453,31 @@
 
         .partner-item p {
             color: var(--light-text);
-            font-size: 0.8rem;
-            margin-top: 0.4rem;
+            font-size: 0.78rem;
+            margin-top: 0.3rem;
             font-weight: 500;
         }
 
+        /* 联系方式 */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             margin-top: 2rem;
-            justify-items: center;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
+            gap: 0.85rem;
+            padding: 1.1rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
-            width: 100%;
-            max-width: 300px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            word-break: break-all;
         }
 
         .contact-item:hover {
@@ -497,43 +486,39 @@
         }
 
         .contact-icon {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--primary-color);
-            width: 40px;
+            width: 36px;
             text-align: center;
+            flex-shrink: 0;
         }
 
-        .contact-info {
-            text-align: left;
-        }
+        .contact-info { text-align: left; }
 
         .contact-info h3 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
             color: var(--light-text);
         }
 
         .contact-info p {
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
         }
 
+        /* 二维码模态框 */
         .qrcode-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(0, 0, 0, 0.8);
             z-index: 1001;
             justify-content: center;
             align-items: center;
         }
 
-        .qrcode-modal.active {
-            display: flex;
-        }
+        .qrcode-modal.active { display: flex; }
 
         .qrcode-content {
             background: white;
@@ -541,123 +526,117 @@
             border-radius: 10px;
             position: relative;
             max-width: 300px;
-            width: 90%;
+            width: 88%;
         }
 
-        .qrcode-content img {
-            width: 100%;
-            height: auto;
-        }
+        .qrcode-content img { width: 100%; height: auto; display: block; }
 
         .close-modal {
             position: absolute;
             top: 10px;
-            right: 10px;
+            right: 12px;
             font-size: 1.5rem;
             color: #333;
             cursor: pointer;
             background: none;
             border: none;
-            padding: 5px;
+            line-height: 1;
         }
 
-        @media (max-width: 1200px) {
-            .contact-grid {
-                grid-template-columns: repeat(2, 1fr);
+        /* ===== 响应式 ===== */
+        @media (max-width: 900px) {
+            .partners-contact-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .partners-wrapper,
+            .contact-wrapper {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .partners-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
+            /* 导航：隐藏横排链接，显示汉堡 */
+            .nav-links  { display: none; }
+            .nav-toggle { display: flex; }
+
+            .hero { margin-top: 56px; min-height: 75vh; }
+
+            .about-content {
+                flex-direction: column;
+                align-items: flex-start;
                 gap: 1rem;
+            }
+
+            .about-logo {
+                width: 140px;
+                height: 140px;
+                align-self: center;
+            }
+
+            .partners-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        /* 添加导航栏样式 */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
+        @media (max-width: 480px) {
+            .hero-content { padding: 1.75rem 1rem; }
+            .company-logo { width: 70px; height: 70px; }
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
+            .about-section  { padding: 2.5rem 1rem; }
+            .partners-contact-section { padding: 2.5rem 1rem; }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
+            .partners-grid  { grid-template-columns: repeat(2, 1fr); }
 
-        .nav-logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+            .contact-grid   { grid-template-columns: 1fr; }
 
-        .nav-logo span {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-            background: rgba(255, 56, 80, 0.1);
-        }
-
-        .nav-link.active {
-            color: var(--primary-color);
-            background: rgba(255, 56, 80, 0.1);
+            .contact-item   { padding: 0.9rem; }
         }
     </style>
 </head>
 <body>
-    <!-- 添加导航栏 -->
+
+    <!-- 导航栏 -->
     <nav class="nav-container">
         <div class="nav-content">
             <a href="#" class="nav-logo">
                 <img src="images/公司logo.jpg" alt="达道科技logo">
                 <span>达道电子科技</span>
             </a>
+            <!-- 桌面端横排链接 -->
             <div class="nav-links">
-                <a href="#" class="nav-link active">首页</a>
-                <a href="#about" class="nav-link">公司介绍</a>
+                <a href="#"          class="nav-link active">首页</a>
+                <a href="#about"     class="nav-link">公司介绍</a>
                 <a href="products.html" class="nav-link">产品介绍</a>
                 <a href="partners.html" class="nav-link">合作伙伴</a>
-                <a href="#contact" class="nav-link">联系我们</a>
+                <a href="#contact"   class="nav-link">联系我们</a>
             </div>
+            <!-- 手机端汉堡按钮 -->
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <!-- 手机端抽屉菜单 -->
+        <div class="nav-drawer" id="navDrawer">
+            <a href="#"          class="nav-link active">首页</a>
+            <a href="#about"     class="nav-link">公司介绍</a>
+            <a href="products.html" class="nav-link">产品介绍</a>
+            <a href="partners.html" class="nav-link">合作伙伴</a>
+            <a href="#contact"   class="nav-link">联系我们</a>
         </div>
     </nav>
 
+    <!-- Hero -->
     <section class="hero">
         <div class="floating-icons"></div>
         <div class="hero-content">
@@ -668,6 +647,7 @@
         </div>
     </section>
 
+    <!-- 关于我们 -->
     <section id="about" class="about-section">
         <div class="container">
             <h2 class="section-title">关于我们</h2>
@@ -676,7 +656,8 @@
                     <p>达道电子科技有限公司是一家专注于汽车电子领域的高科技企业，致力于为汽车制造商和消费者提供创新的智能解决方案。我们的核心业务包括汽车音响系统、车载控制器、智能座舱系统等产品的研发、生产和销售。</p>
                 </div>
             </div>
-            
+
+            <!-- 轮播图 -->
             <div class="image-showcase">
                 <div class="showcase-container">
                     <img src="images/bl1.png" alt="产品展示1" class="showcase-image active">
@@ -692,10 +673,11 @@
         </div>
     </section>
 
+    <!-- 联系我们 -->
     <section id="contact" class="partners-contact-section">
         <div class="partners-contact-container">
-            <div class="contact-wrapper" style="flex: 1;">
-                <h2 class="section-title" style="color: #fff;">联系我们</h2>
+            <div class="contact-wrapper" style="flex:1;">
+                <h2 class="section-title" style="color:#fff;">联系我们</h2>
                 <div class="contact-grid">
                     <div class="contact-item" id="qrcodeButton">
                         <i class="fas fa-qrcode contact-icon"></i>
@@ -718,11 +700,11 @@
                             <p>postmaster@nanjingdadao.com</p>
                         </div>
                     </div>
-                    <div class="contact-item" onclick="window.open('https://api.map.baidu.com/geocoder?address=南京市江宁区铺岗街599号宇通大厦1号楼21层&output=html', '_blank')">
+                    <div class="contact-item" onclick="window.open('https://api.map.baidu.com/geocoder?address=南京市江宁区铺岗街599号宇通大厦1号楼21层&output=html','_blank')">
                         <i class="fas fa-map-marker-alt contact-icon"></i>
                         <div class="contact-info">
                             <h3>公司地址</h3>
-                            <p style="text-decoration: underline;">南京市江宁区铺岗街599号宇通大厦1号楼21层</p>
+                            <p style="text-decoration:underline;">南京市江宁区铺岗街599号宇通大厦1号楼21层</p>
                         </div>
                     </div>
                 </div>
@@ -730,7 +712,7 @@
         </div>
     </section>
 
-    <!-- 添加二维码模态框 -->
+    <!-- 二维码模态框 -->
     <div class="qrcode-modal" id="qrcodeModal">
         <div class="qrcode-content">
             <button class="close-modal">&times;</button>
@@ -739,25 +721,39 @@
     </div>
 
     <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        /* 汉堡菜单 */
+        const navToggle = document.getElementById('navToggle');
+        const navDrawer = document.getElementById('navDrawer');
+
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            navDrawer.classList.toggle('open');
+        });
+
+        navDrawer.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navDrawer.classList.remove('open');
             });
         });
 
-        // 创建浮动图标
+        /* 平滑滚动 */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        /* 浮动图标 */
         function createFloatingIcons() {
             const container = document.querySelector('.floating-icons');
-            const icons = ['⚡', '💻', '🔍', '📱', '🚗', '🎵', '⚙️', '🔧', '📊', '🎮'];
-            const iconCount = 20;
-
-            container.innerHTML = '';  // 清除现有图标
-
-            for (let i = 0; i < iconCount; i++) {
+            const icons = ['⚡','💻','🔍','📱','🚗','🎵','⚙️','🔧','📊','🎮'];
+            container.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
                 const icon = document.createElement('div');
                 icon.className = 'floating-icon';
                 icon.textContent = icons[Math.floor(Math.random() * icons.length)];
@@ -768,95 +764,65 @@
                 container.appendChild(icon);
             }
         }
-
-        // 初始化浮动图标
         createFloatingIcons();
-
-        // 定期刷新浮动图标
         setInterval(createFloatingIcons, 30000);
 
-        // 图片展示控制
+        /* 图片轮播 */
         function initImageShowcase() {
             const images = document.querySelectorAll('.showcase-image');
-            const dots = document.querySelectorAll('.dot');
-            let currentIndex = 0;
+            const dots   = document.querySelectorAll('.dot');
+            let current  = 0;
             let interval;
 
             function showImage(index) {
                 images.forEach(img => img.classList.remove('active'));
-                dots.forEach(dot => dot.classList.remove('active'));
+                dots.forEach(dot   => dot.classList.remove('active'));
                 images[index].classList.add('active');
                 dots[index].classList.add('active');
-                currentIndex = index;
+                current = index;
             }
 
-            function nextImage() {
-                let nextIndex = (currentIndex + 1) % images.length;
-                showImage(nextIndex);
-            }
+            function next() { showImage((current + 1) % images.length); }
 
-            // 点击切换
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    clearInterval(interval);
-                    showImage(index);
-                    startAutoSlide();
-                });
-            });
+            function startAuto() { interval = setInterval(next, 5000); }
 
-            // 自动轮播
-            function startAutoSlide() {
-                interval = setInterval(nextImage, 5000);
-            }
+            dots.forEach((dot, i) => dot.addEventListener('click', () => {
+                clearInterval(interval);
+                showImage(i);
+                startAuto();
+            }));
 
-            startAutoSlide();
+            startAuto();
 
-            // 鼠标悬停时暂停轮播
             const showcase = document.querySelector('.image-showcase');
             showcase.addEventListener('mouseenter', () => clearInterval(interval));
-            showcase.addEventListener('mouseleave', startAutoSlide);
+            showcase.addEventListener('mouseleave', startAuto);
         }
-
-        // 初始化图片展示
         window.addEventListener('load', initImageShowcase);
 
-        // 添加滚动动画
+        /* 二维码弹窗 */
+        const qrcodeButton = document.getElementById('qrcodeButton');
+        const qrcodeModal  = document.getElementById('qrcodeModal');
+        const closeModal   = document.querySelector('.close-modal');
+
+        qrcodeButton.addEventListener('click', () => qrcodeModal.classList.add('active'));
+        closeModal.addEventListener('click',   () => qrcodeModal.classList.remove('active'));
+        qrcodeModal.addEventListener('click',  e => {
+            if (e.target === qrcodeModal) qrcodeModal.classList.remove('active');
+        });
+
+        /* 滚动动画 */
         function revealOnScroll() {
-            const elements = document.querySelectorAll('.service-card, .partner-item');
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementBottom = element.getBoundingClientRect().bottom;
-                const isVisible = (elementTop < window.innerHeight) && (elementBottom >= 0);
-                
-                if (isVisible) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
+            document.querySelectorAll('.service-card, .partner-item').forEach(el => {
+                const { top, bottom } = el.getBoundingClientRect();
+                if (top < window.innerHeight && bottom >= 0) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
                 }
             });
         }
-
-        // 二维码模态框控制
-        const qrcodeButton = document.getElementById('qrcodeButton');
-        const qrcodeModal = document.getElementById('qrcodeModal');
-        const closeModal = document.querySelector('.close-modal');
-
-        qrcodeButton.addEventListener('click', () => {
-            qrcodeModal.classList.add('active');
-        });
-
-        closeModal.addEventListener('click', () => {
-            qrcodeModal.classList.remove('active');
-        });
-
-        qrcodeModal.addEventListener('click', (e) => {
-            if (e.target === qrcodeModal) {
-                qrcodeModal.classList.remove('active');
-            }
-        });
-
-        // 初始化滚动动画
         window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
+        window.addEventListener('load',   revealOnScroll);
     </script>
 </body>
-</html> 
+</html>
