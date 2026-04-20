@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公司名称 | 官方网站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 预留背景图占位符样式 */
+        .hero-bg {
+            background-color: #f3f4f6; /* 默认灰色背景 */
+            background-image: url('path/to/your/hero-image.jpg'); /* 替换为你的本地路径 */
+            background-size: cover;
+            background-position: center;
+        }
+        .section-bg {
+            background-image: url('path/to/your/section-bg.jpg'); /* 预留其他区域背景 */
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600">
+                <img src="path/to/logo.png" alt="LOGO" class="h-8 inline-block mr-2">
+                Company Name
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#home" class="hover:text-blue-600 transition">首页</a>
+                <a href="#services" class="hover:text-blue-600 transition">产品服务</a>
+                <a href="#about" class="hover:text-blue-600 transition">关于我们</a>
+                <a href="#contact" class="hover:text-blue-600 transition">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="max-w-3xl">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-6">这里是你的核心愿景标语</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600">简短地描述公司业务，吸引客户的注意力。此处可放置核心价值主张。</p>
+            <a href="#contact" class="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition">
+                立即咨询
+            </a>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">我们的服务</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="p-8 border rounded-xl hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
+                        <span class="text-blue-600 text-2xl">01</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">核心业务一</h3>
+                    <p class="text-gray-600">描述该业务的具体内容、优势以及能为客户解决什么问题。</p>
+                </div>
+                <div class="p-8 border rounded-xl hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
+                        <span class="text-blue-600 text-2xl">02</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">核心业务二</h3>
+                    <p class="text-gray-600">描述该业务的具体内容、优势以及能为客户解决什么问题。</p>
+                </div>
+                <div class="p-8 border rounded-xl hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
+                        <span class="text-blue-600 text-2xl">03</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">核心业务三</h3>
+                    <p class="text-gray-600">描述该业务的具体内容、优势以及能为客户解决什么问题。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <div class="bg-gray-300 rounded-lg aspect-video flex items-center justify-center text-gray-500">
+                    此处替换为公司形象图 [Image path: img/about.jpg]
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <h2 class="text-3xl font-bold mb-6">关于我们</h2>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    在这里填写公司的发展历程、企业文化以及团队背景。GitHub Pages 是展示企业技术实力和品牌形象的绝佳窗口。
+                </p>
+                <p class="text-gray-600 leading-relaxed">
+                    你可以添加更多的细节，比如获得的荣誉、合作伙伴或市场覆盖范围。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">联系我们</h3>
+                <ul class="space-y-2 text-gray-400">
+                    <li>地址：你的公司详细地址</li>
+                    <li>电话：+86 123-4567-8910</li>
+                    <li>邮箱：support@company.com</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">快速链接</h3>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white">隐私政策</a></li>
+                    <li><a href="#" class="hover:text-white">加入我们</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">关注我们</h3>
+                <div class="w-24 h-24 bg-white p-2">
+                    <img src="path/to/qr-code.png" alt="微信公众号" class="w-full h-full object-contain">
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+            © 2024 公司名称. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
