@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合作伙伴 - 达道科技</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff3850;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .nav-container {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .back-button {
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #e62e43;
+        }
+
+        .partners-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .partner-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .partner-logo {
+            width: 150px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .partner-name {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .partner-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .partners-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .partners-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">
+                <img src="images/公司logo.jpg" alt="达道科技logo">
+                <span>达道电子科技</span>
+            </a>
+            <a href="index.html" class="back-button">返回首页</a>
+        </div>
+    </nav>
+
+    <div class="partners-container">
+        <div class="page-header">
+            <h1 class="page-title">合作伙伴</h1>
+            <p class="page-subtitle">携手共创智能汽车电子新未来</p>
+        </div>
+
+        <div class="partners-grid">
+            <div class="partner-card">
+                <img src="images/大众.jpg" alt="大众汽车" class="partner-logo">
+                <h3 class="partner-name">大众汽车</h3>
+                <p class="partner-description">全球领先的汽车制造商，致力于提供创新的驾驶体验。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/一汽.webp" alt="一汽集团" class="partner-logo">
+                <h3 class="partner-name">一汽集团</h3>
+                <p class="partner-description">中国最大的汽车生产企业之一，技术创新的领军者。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/斯柯达.webp" alt="斯柯达" class="partner-logo">
+                <h3 class="partner-name">斯柯达</h3>
+                <p class="partner-description">专注于智能科技与舒适驾驶的完美结合。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/凯迪拉克.webp" alt="凯迪拉克" class="partner-logo">
+                <h3 class="partner-name">凯迪拉克</h3>
+                <p class="partner-description">豪华汽车品牌的代表，追求卓越品质。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/奥迪.webp" alt="奥迪" class="partner-logo">
+                <h3 class="partner-name">奥迪</h3>
+                <p class="partner-description">以科技创新引领未来出行方式。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/cfmoto.webp" alt="春风动力" class="partner-logo">
+                <h3 class="partner-name">春风动力</h3>
+                <p class="partner-description">专业的动力系统解决方案提供商。</p>
+            </div>
+
+            <div class="partner-card">
+                <img src="images/奇瑞.webp" alt="奇瑞汽车" class="partner-logo">
+                <h3 class="partner-name">奇瑞汽车</h3>
+                <p class="partner-description">自主创新的中国汽车品牌领导者。</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

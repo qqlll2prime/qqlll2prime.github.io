@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360°环视系统 - 达道科技</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff3850;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --company-color: #0066cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .header {
+            background: var(--company-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            color: var(--company-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--company-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .tech-specs {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .specs-title {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .spec-item {
+            padding: 1.5rem;
+            background: var(--bg-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .spec-item:hover {
+            background: rgba(0, 102, 204, 0.1);
+            transform: scale(1.05);
+        }
+
+        .spec-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .spec-value {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-section, .tech-specs {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="products.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                返回产品页
+            </a>
+            <a href="index.html" class="logo">达道科技</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">360°环视系统</h1>
+            <p>全方位车身监控，智能安全守护</p>
+        </section>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-camera feature-icon"></i>
+                <h3 class="feature-title">高清摄像头阵列</h3>
+                <p>采用4个200万像素高清摄像头，覆盖车身四周，无盲区成像，清晰度达到1080P。</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-brain feature-icon"></i>
+                <h3 class="feature-title">AI图像处理</h3>
+                <p>先进的AI算法实时处理图像，智能识别障碍物，准确测距，辅助泊车。</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-eye feature-icon"></i>
+                <h3 class="feature-title">实时鸟瞰图</h3>
+                <p>智能拼接技术提供实时鸟瞰视角，让驾驶员对车辆周围环境一目了然。</p>
+            </div>
+        </div>
+
+        <section class="tech-specs">
+            <h2 class="specs-title">技术规格</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="spec-name">摄像头分辨率</div>
+                    <div class="spec-value">200万像素/1080P</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">视野角度</div>
+                    <div class="spec-value">180°超广角</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">图像处理器</div>
+                    <div class="spec-value">高通骁龙8核心处理器</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">延迟时间</div>
+                    <div class="spec-value">≤100ms</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">工作温度</div>
+                    <div class="spec-value">-40℃~85℃</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">防水等级</div>
+                    <div class="spec-value">IP67</div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html> 

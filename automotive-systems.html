@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汽车电子系统 - 达道科技</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff3850;
+            --company-color: #0066cc;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .header {
+            background: var(--company-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            color: var(--company-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--company-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .tech-specs {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .spec-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .spec-icon {
+            color: var(--company-color);
+            font-size: 1.5rem;
+        }
+
+        .system-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .diagram-container {
+            margin-top: 2rem;
+            padding: 2rem;
+            border: 2px solid var(--company-color);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .diagram-arrow {
+            position: absolute;
+            color: var(--company-color);
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-section, .tech-specs {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="products.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                返回产品页
+            </a>
+            <a href="index.html" class="logo">达道科技</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">汽车电子系统解决方案</h1>
+            <p>达道科技提供全方位的汽车电子系统解决方案，包括ACC自适应巡航系统、高性能音频处理器等核心部件。</p>
+        </section>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-car feature-icon"></i>
+                <h3 class="feature-title">ACC系统</h3>
+                <p>采用毫米波雷达和视觉融合技术，实现精准的车距控制和自适应巡航功能，提升驾驶安全性。</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-microchip feature-icon"></i>
+                <h3 class="feature-title">音频处理器</h3>
+                <p>32位浮点DSP处理器，支持多路音频输入输出，提供专业级音频信号处理能力。</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-tachometer-alt feature-icon"></i>
+                <h3 class="feature-title">性能监控</h3>
+                <p>实时监控系统运行状态，支持OTA远程升级，确保系统稳定性和可靠性。</p>
+            </div>
+        </div>
+
+        <section class="system-diagram">
+            <h2>系统架构</h2>
+            <div class="diagram-container">
+                <div class="diagram-content">
+                    <p>传感器层 → 信号处理层 → 控制决策层 → 执行层</p>
+                    <p>包含雷达、摄像头、超声波等多种传感器输入</p>
+                    <p>支持CAN、LIN、FlexRay等多种车载总线</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="tech-specs">
+            <h2>技术规格</h2>
+            <ul class="spec-list">
+                <li class="spec-item">
+                    <i class="fas fa-radar spec-icon"></i>
+                    <div>
+                        <h4>雷达性能</h4>
+                        <p>探测距离：0.2-150m，角度：±60°</p>
+                    </div>
+                </li>
+                <li class="spec-item">
+                    <i class="fas fa-microchip spec-icon"></i>
+                    <div>
+                        <h4>处理器</h4>
+                        <p>双核ARM Cortex-A53，主频1.5GHz</p>
+                    </div>
+                </li>
+                <li class="spec-item">
+                    <i class="fas fa-clock spec-icon"></i>
+                    <div>
+                        <h4>响应时间</h4>
+                        <p>系统响应时间 ≤ 100ms</p>
+                    </div>
+                </li>
+                <li class="spec-item">
+                    <i class="fas fa-thermometer-half spec-icon"></i>
+                    <div>
+                        <h4>工作环境</h4>
+                        <p>温度：-40℃ ~ +85℃</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html> 
