@@ -1,737 +1,1084 @@
 <!DOCTYPE html>
-<html lang="zh-CN" oncontextmenu="return false" onselectstart="return false" oncopy="return false">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/jpeg" href="images/公司logo.jpg">
-    <title>达道电子科技 — 智能汽车电子解决方案</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>南京达道电子科技 | 汽车电子未来架构师</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS 滚动动画库 (轻量增强) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        :root {
-            --red: #E8001C;
-            --red-dim: rgba(232,0,28,.18);
-            --white: #f2f2f0;
-            --off-white: #c8c8c4;
-            --dark: #080809;
-            --dark2: #0f0f11;
-            --dark3: #161618;
-            --border: rgba(255,255,255,.07);
-            --font-display: 'Bebas Neue', sans-serif;
-            --font-body: 'Noto Sans SC', sans-serif;
-            --font-mono: 'Space Mono', monospace;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
 
         body {
-            background: var(--dark);
-            color: var(--white);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            cursor: default;
-        }
-
-        /* ── Noise overlay ── */
-        body::after {
-            content: '';
-            position: fixed; inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-            opacity: .028;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* ═══════════════ NAV ═══════════════ */
-        nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            z-index: 1000;
-            padding: 0 clamp(1.5rem, 5vw, 3.5rem);
-            height: 64px;
-            display: flex; align-items: center; justify-content: space-between;
-            transition: background .4s, border-color .4s;
-        }
-        nav.scrolled {
-            background: rgba(8,8,9,.88);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-logo {
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none;
-        }
-        .nav-logo img {
-            width: 32px; height: 32px; border-radius: 50%;
-            border: 1px solid rgba(255,255,255,.15);
-        }
-        .nav-logo-text {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            letter-spacing: .06em;
-            color: var(--white);
-        }
-        .nav-logo-text span { color: var(--red); }
-
-        .nav-links {
-            display: flex; gap: .25rem; align-items: center;
-        }
-        .nav-link {
-            font-size: .82rem;
-            font-weight: 500;
-            letter-spacing: .08em;
-            color: var(--off-white);
-            text-decoration: none;
-            padding: .45rem .9rem;
-            border-radius: 4px;
-            transition: color .25s, background .25s;
-        }
-        .nav-link:hover { color: var(--white); background: rgba(255,255,255,.06); }
-        .nav-link.cta {
-            color: var(--white);
-            background: var(--red);
-            padding: .45rem 1.1rem;
-        }
-        .nav-link.cta:hover { background: #c0001a; }
-
-        .nav-toggle {
-            display: none;
-            flex-direction: column; gap: 5px;
-            cursor: pointer; background: none; border: none; padding: 6px;
-        }
-        .nav-toggle span {
-            display: block; width: 22px; height: 2px;
-            background: var(--white); border-radius: 2px;
-            transition: .3s;
-        }
-        .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .nav-toggle.open span:nth-child(2) { opacity: 0; }
-        .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        .nav-drawer {
-            display: none; flex-direction: column;
-            position: absolute; top: 64px; left: 0; width: 100%;
-            background: rgba(8,8,9,.96);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border);
-            padding: .75rem 1.5rem 1.25rem;
-        }
-        .nav-drawer.open { display: flex; }
-        .nav-drawer .nav-link { padding: .75rem .5rem; border-bottom: 1px solid var(--border); font-size: .95rem; }
-        .nav-drawer .nav-link:last-child { border: none; }
-
-        /* ═══════════════ HERO ═══════════════ */
-        .hero {
-            position: relative;
-            min-height: 100svh;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding: 0 1.5rem;
-        }
-
-        /* Animated grid bg */
-        .hero-grid {
-            position: absolute; inset: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f6f9ff;
             background-image:
-                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
-        }
-
-        /* Red glow orb */
-        .hero-orb {
-            position: absolute;
-            width: clamp(300px, 60vw, 800px);
-            height: clamp(300px, 60vw, 800px);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(232,0,28,.22) 0%, transparent 70%);
-            top: 50%; left: 50%;
-            transform: translate(-50%,-50%);
-            animation: orbPulse 6s ease-in-out infinite;
-        }
-        @keyframes orbPulse {
-            0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .7; }
-            50%      { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
-        }
-
-        /* Scan line */
-        .hero-scanline {
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
-            pointer-events: none;
-        }
-
-        .hero-content { position: relative; z-index: 2; max-width: 860px; }
-
-        .hero-eyebrow {
-            font-family: var(--font-mono);
-            font-size: clamp(.65rem, 1.5vw, .8rem);
-            letter-spacing: .22em;
-            color: var(--red);
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeUp .8s .3s forwards;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(3.5rem, 11vw, 10rem);
-            line-height: .92;
-            letter-spacing: .01em;
-            color: var(--white);
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeUp .9s .5s forwards;
-        }
-        .hero-title .accent { color: var(--red); }
-
-        .hero-sub {
-            font-size: clamp(.95rem, 2vw, 1.15rem);
-            color: var(--off-white);
-            font-weight: 300;
-            line-height: 1.7;
-            max-width: 520px;
-            margin: 0 auto 2.5rem;
-            opacity: 0;
-            animation: fadeUp .9s .7s forwards;
-        }
-
-        .hero-buttons {
-            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeUp .9s .9s forwards;
-        }
-
-        .btn {
-            display: inline-flex; align-items: center; gap: .5rem;
-            padding: .8rem 1.8rem;
-            font-family: var(--font-body);
-            font-size: .9rem;
-            font-weight: 500;
-            letter-spacing: .06em;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: .25s;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-primary {
-            background: var(--red);
-            color: #fff;
-        }
-        .btn-primary:hover { background: #c0001a; transform: translateY(-2px); }
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            border: 1px solid rgba(255,255,255,.25);
-        }
-        .btn-outline:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.5); transform: translateY(-2px); }
-
-        /* Scroll indicator */
-        .scroll-hint {
-            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: .5rem;
-            opacity: 0; animation: fadeIn 1s 1.5s forwards;
-            color: rgba(255,255,255,.3); font-size: .72rem; letter-spacing: .12em;
-            font-family: var(--font-mono);
-        }
-        .scroll-hint-line {
-            width: 1px; height: 40px;
-            background: linear-gradient(to bottom, var(--red), transparent);
-            animation: lineAnim 2s 1.5s ease-in-out infinite;
-        }
-        @keyframes lineAnim {
-            0%,100% { opacity: .3; transform: scaleY(1); }
-            50%      { opacity: 1; transform: scaleY(1.2); }
-        }
-
-        /* ═══════════════ SECTIONS SHARED ═══════════════ */
-        section { padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3.5rem); }
-
-        .section-label {
-            font-family: var(--font-mono);
-            font-size: .72rem;
-            letter-spacing: .22em;
-            color: var(--red);
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: flex; align-items: center; gap: .75rem;
-        }
-        .section-label::after {
-            content: '';
-            flex: 1; max-width: 60px; height: 1px;
-            background: var(--red);
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            line-height: 1;
-            letter-spacing: .01em;
-            margin-bottom: 1.5rem;
-        }
-        .section-title .accent { color: var(--red); }
-
-        /* ═══════════════ ABOUT ═══════════════ */
-        #about { background: var(--dark2); }
-
-        .about-inner {
-            max-width: 1200px; margin: 0 auto;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
-        }
-
-        .about-text-col p {
-            font-size: 1rem;
-            line-height: 1.9;
-            color: var(--off-white);
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-stats {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
-            margin-top: 2.5rem;
-        }
-        .stat-box {
-            padding: 1.5rem;
-            background: var(--dark3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-        .stat-box::before {
-            content: '';
-            position: absolute; top: 0; left: 0;
-            width: 3px; height: 100%;
-            background: var(--red);
-        }
-        .stat-num {
-            font-family: var(--font-display);
-            font-size: 2.6rem;
-            line-height: 1;
-            color: var(--white);
-            margin-bottom: .4rem;
-        }
-        .stat-num span { color: var(--red); }
-        .stat-desc { font-size: .8rem; color: var(--off-white); letter-spacing: .05em; }
-
-        /* Carousel */
-        .carousel-wrap {
-            position: relative; border-radius: 12px; overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 24px 80px rgba(0,0,0,.6);
-        }
-        .carousel-track { position: relative; width: 100%; padding-top: 60%; }
-        .carousel-slide {
-            position: absolute; inset: 0;
-            opacity: 0; transition: opacity .6s;
-        }
-        .carousel-slide.active { opacity: 1; }
-        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-        .carousel-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(8,8,9,.8) 0%, transparent 60%);
-        }
-        .carousel-caption {
-            position: absolute; bottom: 1.5rem; left: 1.5rem;
-            font-family: var(--font-mono); font-size: .72rem;
-            letter-spacing: .1em; color: rgba(255,255,255,.5);
-        }
-        .carousel-dots {
-            position: absolute; bottom: 1.5rem; right: 1.5rem;
-            display: flex; gap: .5rem;
-        }
-        .c-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: rgba(255,255,255,.25);
-            cursor: pointer; transition: .3s;
-        }
-        .c-dot.active { background: var(--red); width: 18px; border-radius: 3px; }
-
-        /* ═══════════════ DIVIDER ═══════════════ */
-        .marquee-divider {
-            background: var(--red);
-            padding: .9rem 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .marquee-track {
-            display: inline-flex; gap: 3rem;
-            animation: marquee 20s linear infinite;
-        }
-        .marquee-item {
-            font-family: var(--font-display);
-            font-size: 1rem;
-            letter-spacing: .15em;
-            color: rgba(255,255,255,.5);
-        }
-        .marquee-item b { color: #fff; font-weight: 400; }
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
-        }
-
-        /* ═══════════════ CONTACT ═══════════════ */
-        #contact { background: var(--dark3); }
-
-        .contact-inner { max-width: 1200px; margin: 0 auto; }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-            margin-top: 3rem;
-        }
-
-        .contact-card {
-            display: flex; align-items: flex-start; gap: 1.1rem;
-            padding: 1.6rem;
-            background: var(--dark2);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: border-color .3s, transform .3s;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .contact-card:hover {
-            border-color: var(--red);
-            transform: translateY(-3px);
-        }
-        .contact-card-icon {
-            width: 44px; height: 44px;
-            background: var(--red-dim);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-            color: var(--red);
-            flex-shrink: 0;
-        }
-        .contact-card-body h4 {
-            font-size: .75rem;
-            font-family: var(--font-mono);
-            letter-spacing: .12em;
-            color: var(--off-white);
-            margin-bottom: .4rem;
-            text-transform: uppercase;
-        }
-        .contact-card-body p {
-            font-size: .95rem;
-            color: var(--white);
-            font-weight: 400;
+                radial-gradient(1200px 700px at 10% 10%, rgba(0, 180, 255, 0.12), transparent 58%),
+                radial-gradient(900px 520px at 90% 15%, rgba(110, 140, 255, 0.12), transparent 58%),
+                radial-gradient(900px 520px at 35% 95%, rgba(0, 255, 210, 0.06), transparent 58%),
+                linear-gradient(180deg, #ffffff 0%, #f3f8ff 55%, #fbfdff 100%);
+            color: #0b1b2b;
+            overflow-x: hidden;
             line-height: 1.5;
         }
 
-        /* ═══════════════ FOOTER ═══════════════ */
-        footer {
-            background: var(--dark);
-            border-top: 1px solid var(--border);
-            padding: 2.5rem clamp(1.5rem, 5vw, 3.5rem);
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 1rem;
+        /* 炫酷科技粒子背景 canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;  /* 让所有鼠标事件穿透，保证内容可交互 */
+            display: block;
         }
-        .footer-logo { display: flex; align-items: center; gap: 8px; }
-        .footer-logo img { width: 28px; height: 28px; border-radius: 50%; opacity: .6; }
-        .footer-logo span {
-            font-family: var(--font-display);
+
+        /* 内容层，浮在背景之上 */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 滚动条自定义 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 45, 80, 0.08);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 140, 255, 0.65);
+            border-radius: 10px;
+        }
+
+        /* 导航栏 — 玻璃科技感 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.72);
+            border-bottom: 1px solid rgba(0, 130, 255, 0.22);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            min-width: 0;
+        }
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(0, 120, 255, 0.12);
+            box-shadow: 0 10px 22px rgba(10, 45, 90, 0.10);
+            flex: 0 0 auto;
+        }
+        .brand-text {
+            min-width: 0;
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0b2b4b;
+            text-shadow: 0 10px 22px rgba(10, 45, 90, 0.10);
+            letter-spacing: -0.5px;
+        }
+        .logo p {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #4d77a7;
+        }
+        @media (max-width: 600px) {
+            .brand-mark {
+                width: 36px;
+                height: 36px;
+                border-radius: 9px;
+            }
+            .logo h1 {
+                font-size: 1.55rem;
+            }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #0b1b2b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(0, 110, 255, 0.55);
+            box-shadow: 0 0 8px rgba(0, 110, 255, 0.16);
+            transition: 0.3s;
+        }
+        .nav-links a:hover:after, .nav-links a.active:after {
+            width: 100%;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #006dff;
+            text-shadow: 0 0 6px rgba(0, 140, 255, 0.15);
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #0b3a66;
+        }
+
+        /* 通用区块样式 */
+        section {
+            padding: 100px 6%;
+            position: relative;
+        }
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #0b1b2b;
+            letter-spacing: -1px;
+        }
+        .section-sub {
+            text-align: center;
+            color: #4d77a7;
+            margin-bottom: 3rem;
             font-size: 1.1rem;
-            letter-spacing: .06em;
-            color: rgba(255,255,255,.35);
-        }
-        .footer-copy {
-            font-size: .75rem;
-            font-family: var(--font-mono);
-            color: rgba(255,255,255,.2);
-            letter-spacing: .06em;
         }
 
-        /* ═══════════════ QR MODAL ═══════════════ */
-        .modal-backdrop {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.85); z-index: 2000;
-            justify-content: center; align-items: center;
+        /* HERO 区域 */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
-        .modal-backdrop.open { display: flex; }
-        .modal-box {
-            background: var(--dark3);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2.5rem;
-            max-width: 280px; width: 88%;
-            position: relative; text-align: center;
+        .hero-content {
+            flex: 1;
         }
-        .modal-box img { width: 100%; border-radius: 6px; }
-        .modal-close {
-            position: absolute; top: 12px; right: 14px;
-            background: none; border: none;
-            color: var(--off-white); font-size: 1.3rem;
-            cursor: pointer; line-height: 1;
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(4px);
+            border-left: 3px solid rgba(0, 120, 255, 0.55);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            color: #0b3a66;
         }
-        .modal-box h3 {
-            font-size: .78rem;
-            font-family: var(--font-mono);
-            letter-spacing: .15em;
-            color: var(--off-white);
+        .hero-content h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero-gradient {
+            color: #0a4fb8;
+        }
+        .hero-desc {
+            font-size: 1.2rem;
+            color: #2c4a68;
+            max-width: 550px;
+            margin: 1.5rem 0 2rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-outline {
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #1557d6, #0a79ff);
+            border: none;
+            color: white;
+            box-shadow: 0 10px 24px rgba(10, 121, 255, 0.20);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 34px rgba(10, 121, 255, 0.28);
+            background: linear-gradient(90deg, #1b62ea, #0a86ff);
+        }
+        .btn-outline {
+            border: 1.5px solid rgba(0, 120, 255, 0.35);
+            background: rgba(255, 255, 255, 0.55);
+            color: #0b3a66;
+            backdrop-filter: blur(5px);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 12px 28px rgba(10, 121, 255, 0.16);
+            transform: translateY(-3px);
+        }
+        .hero-stats {
+            flex: 0.8;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.74);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 140, 255, 0.18);
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s;
+        }
+        .stat-card i {
+            font-size: 2.5rem;
+            color: #007cff;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        /* 卡片通用风格 (解决方案&产品) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             margin-top: 1rem;
-            text-transform: uppercase;
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .media-card {
+            grid-column: span 4;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(0, 120, 255, 0.14);
+            border-radius: 28px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 16px 30px rgba(10, 45, 90, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            min-height: 240px;
+            position: relative;
+        }
+        .media-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 44px rgba(10, 45, 90, 0.12);
+        }
+        .media-thumb {
+            height: 165px;
+            background:
+                radial-gradient(700px 250px at 25% 15%, rgba(10, 121, 255, 0.18), transparent 55%),
+                radial-gradient(500px 220px at 75% 35%, rgba(0, 255, 210, 0.10), transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,0.75), rgba(245,250,255,0.85));
+            border-bottom: 1px dashed rgba(0, 120, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(11, 58, 102, 0.75);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        .media-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(0.95) contrast(1.02);
+        }
+        .media-open {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.20));
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 700;
+            border: 0;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .media-card:hover .media-open {
+            opacity: 1;
+        }
+        .media-open:focus-visible {
+            opacity: 1;
+            outline: 3px solid rgba(10, 121, 255, 0.35);
+            outline-offset: -3px;
         }
 
-        /* ═══════════════ ANIMATIONS ═══════════════ */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            background: rgba(10, 18, 30, 0.62);
+            backdrop-filter: blur(10px);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
+        .lightbox.show {
+            display: flex;
+        }
+        .lightbox-dialog {
+            width: min(980px, 96vw);
+            max-height: 86vh;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(0, 120, 255, 0.18);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.22);
+            position: relative;
+        }
+        .lightbox-img {
+            width: 100%;
+            height: 100%;
+            max-height: 86vh;
+            object-fit: contain;
+            display: block;
+            background: linear-gradient(180deg, #ffffff, #f3f8ff);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 120, 255, 0.18);
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            color: #0b2b4b;
+        }
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+        .media-body {
+            padding: 1.1rem 1.2rem 1.2rem;
+        }
+        .media-title {
+            margin: 0 0 0.35rem 0;
+            font-size: 1.15rem;
+            color: #0b1b2b;
+        }
+        .media-desc {
+            margin: 0;
+            color: #2c4a68;
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+        @media (max-width: 1000px) {
+            .media-card { grid-column: span 6; }
+        }
+        @media (max-width: 650px) {
+            .media-card { grid-column: span 12; }
+        }
+        .tech-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            border: 1px solid rgba(0, 120, 255, 0.18);
+            transition: 0.3s;
+            text-align: center;
+        }
+        .tech-card:hover {
+            transform: translateY(-10px);
+            border-color: #00aaff;
+            box-shadow: 0 20px 35px -12px rgba(0, 150, 255, 0.3);
+            background: rgba(255, 255, 255, 0.88);
+        }
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #0a79ff;
+        }
+        .tech-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+        .tech-card p {
+            color: #2c4a68;
         }
 
-        .reveal {
-            opacity: 0; transform: translateY(30px);
-            transition: opacity .7s, transform .7s;
+        /* 产品卡片变体带小标志 */
+        .product-card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 1.8rem;
+            border-left: 4px solid #00aaff;
+            transition: all 0.3s;
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .product-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 25px -8px #00aaff40;
+        }
+        .product-icon {
+            font-size: 2.2rem;
+            color: #2ad4ff;
+        }
 
-        /* ═══════════════ RESPONSIVE ═══════════════ */
+        /* 技术优势区特殊光效 */
+        .advantages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .adv-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.68);
+            padding: 2rem 1rem;
+            border-radius: 40px;
+            border-bottom: 2px solid #00ccff;
+        }
+        .adv-item i {
+            font-size: 3rem;
+            background: linear-gradient(145deg, #aaffff, #2288ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* 关于我们区块 */
+        .about-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-text {
+            flex: 1;
+        }
+        .about-text p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #2c4a68;
+        }
+        .about-stats {
+            flex: 0.8;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .timeline {
+            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(0, 140, 255, 0.16);
+            border-radius: 28px;
+            backdrop-filter: blur(10px);
+            padding: 2.2rem;
+        }
+        .timeline-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.4rem;
+        }
+        .timeline-title h3 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #0b1b2b;
+            letter-spacing: -0.5px;
+        }
+        .timeline-title p {
+            margin: 0;
+            color: #4d77a7;
+            font-size: 1rem;
+        }
+        .timeline-list {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            padding: 0 0 0 1.2rem;
+        }
+        .timeline-list:before {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(0, 230, 255, 0.85), rgba(0, 120, 255, 0.25));
+            box-shadow: 0 0 18px rgba(0, 200, 255, 0.18);
+        }
+        .timeline-item {
+            position: relative;
+            padding: 1rem 1rem 1rem 1.5rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.60);
+            border: 1px solid rgba(0, 120, 255, 0.14);
+            margin: 0.9rem 0;
+        }
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: -18px;
+            top: 18px;
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #d9ffff, #00b6ff 55%, #006dff 100%);
+            box-shadow: 0 0 18px rgba(0, 200, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+        .timeline-item .year {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #0b1b2b;
+            margin-bottom: 0.35rem;
+        }
+        .timeline-item .year i {
+            color: #0a79ff;
+        }
+        .timeline-item .desc {
+            margin: 0;
+            color: #2c4a68;
+            line-height: 1.7;
+        }
         @media (max-width: 900px) {
-            .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .timeline {
+                padding: 1.6rem;
+            }
         }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-toggle { display: flex; }
-            .contact-grid { grid-template-columns: 1fr; }
+
+        /* 联系表单区域 */
+        .contact-flex {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
-        @media (max-width: 480px) {
-            .about-stats { grid-template-columns: 1fr; }
+        .contact-info {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 28px;
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+        }
+        .map-link {
+            color: #0a4fb8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .map-link:hover {
+            color: #0a79ff;
+        }
+        .qr-trigger {
+            color: #0a4fb8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+        .qr-trigger:hover {
+            color: #0a79ff;
+        }
+        .contact-form {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 28px;
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+        }
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+        input, textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid #2a6eff;
+            border-radius: 40px;
+            padding: 12px 20px;
+            color: #0b1b2b;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(10, 121, 255, 0.7);
+            box-shadow: 0 0 0 4px rgba(10, 121, 255, 0.12);
+        }
+        textarea {
+            border-radius: 24px;
+            resize: vertical;
+        }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #0077ff, #00b8ff);
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 150, 255, 0.2);
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: rgba(255, 255, 255, 0.86);
+                backdrop-filter: blur(20px);
+                width: 200px;
+                padding: 1rem;
+                border-radius: 20px;
+                gap: 1rem;
+                text-align: center;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 600px) {
+            section {
+                padding: 60px 5%;
+            }
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-<!-- ── NAV ── -->
-<nav id="mainNav">
-    <a href="#" class="nav-logo">
-        <img src="images/公司logo.jpg" alt="logo">
-        <span class="nav-logo-text">达道<span>电子</span></span>
-    </a>
-    <div class="nav-links">
-        <a href="#"           class="nav-link">首页</a>
-        <a href="#about"      class="nav-link">关于我们</a>
-        <a href="products.html" class="nav-link">产品介绍</a>
-        <a href="partners.html" class="nav-link">合作伙伴</a>
-        <a href="#contact"    class="nav-link cta">联系我们</a>
-    </div>
-    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
-    <div class="nav-drawer" id="navDrawer">
-        <a href="#"           class="nav-link">首页</a>
-        <a href="#about"      class="nav-link">关于我们</a>
-        <a href="products.html" class="nav-link">产品介绍</a>
-        <a href="partners.html" class="nav-link">合作伙伴</a>
-        <a href="#contact"    class="nav-link">联系我们</a>
-    </div>
-</nav>
+    <!-- 粒子科技背景 Canvas -->
+    <canvas id="particle-canvas"></canvas>
 
-<!-- ── HERO ── -->
-<section class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-orb"></div>
-    <div class="hero-scanline"></div>
-    <div class="hero-content">
-        <p class="hero-eyebrow">// INTELLIGENT AUTOMOTIVE ELECTRONICS</p>
-        <h1 class="hero-title">达道<br><span class="accent">电子</span><br>科技</h1>
-        <p class="hero-sub">专注汽车电子领域的高科技企业 — 汽车音响系统、车载控制器、智能座舱系统的研发与创新</p>
-        <div class="hero-buttons">
-            <a href="#about"       class="btn btn-primary"><i class="fas fa-chevron-down"></i> 了解更多</a>
-            <a href="products.html" class="btn btn-outline">查看产品</a>
+    <div class="content-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo">
+                <img class="brand-mark" src="images/公司logo.jpg" alt="达道电子 logo" loading="lazy" decoding="async">
+                <div class="brand-text">
+                    <h1>达道电子</h1>
+                    <p>NANJING DADAO ELECTRONICS</p>
+                </div>
+            </div>
+            <div class="menu-toggle" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active nav-item">首页</a>
+                <a href="#solutions" class="nav-item">解决方案</a>
+                <a href="#products" class="nav-item">产品中心</a>
+                <a href="#tech" class="nav-item">技术优势</a>
+                <a href="#about" class="nav-item">关于我们</a>
+                <a href="#contact" class="nav-item">联系</a>
+            </div>
+        </nav>
+
+        <!-- Hero 主视觉 -->
+        <section id="home" class="hero">
+            <div class="hero-content" data-aos="fade-right">
+                <span class="hero-badge"><i class="fas fa-microchip"></i> 汽车电子·全栈解决方案</span>
+                <h1>驱动未来出行，<br><span class="hero-gradient">智领车联新纪元</span></h1>
+                <p class="hero-desc">南京达道电子科技 — 专注智能座舱、自动驾驶与车路协同核心部件，为车企提供高可靠性、高安全性的汽车电子系统。</p>
+                <div class="btn-group">
+                    <a href="#contact" class="btn-primary"><i class="fas fa-rocket"></i> 探索合作</a>
+                    <a href="#products" class="btn-outline"><i class="fas fa-car"></i> 旗舰产品</a>
+                </div>
+            </div>
+            <div class="hero-stats" data-aos="fade-left">
+                <div class="stat-card"><i class="fas fa-industry"></i><div class="stat-number">50+</div><div>量产项目</div></div>
+                <div class="stat-card"><i class="fas fa-globe"></i><div class="stat-number">30+</div><div>主机厂伙伴</div></div>
+                <div class="stat-card"><i class="fas fa-shield-alt"></i><div class="stat-number">ISO26262</div><div>功能安全认证</div></div>
+            </div>
+        </section>
+
+        <!-- 解决方案 -->
+        <section id="solutions">
+            <h2 class="section-title" data-aos="fade-up">前沿解决方案</h2>
+            <div class="section-sub" data-aos="fade-up">从感知到决策，构建智能汽车神经中枢</div>
+            <div class="cards-grid">
+                <div class="tech-card" data-aos="zoom-in">
+                    <div class="tech-icon"><i class="fas fa-brain"></i></div>
+                    <h3>智能座舱</h3>
+                    <p>高性能车规级SoC方案，多模态交互，沉浸式驾舱体验，支持虚拟仪表与IVI融合。</p>
+                </div>
+                <div class="tech-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="tech-icon"><i class="fas fa-mobile-screen-button"></i></div>
+                    <h3>CarPlay / Android Auto</h3>
+                    <p>支持有线/无线 CarPlay 与 Android Auto，语音/导航/音乐无缝互联投屏，支持 OTA 持续升级。</p>
+                </div>
+                <div class="tech-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="tech-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>车载网关 & T-BOX</h3>
+                    <p>中央网关+5G T-BOX，安全OTA，V2X通信，构建智能网联汽车数据枢纽。</p>
+                </div>
+                <div class="tech-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="tech-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>360°高清环视系统</h3>
+                    <p>4路高清摄像头，120°超广角，1080P分辨率，支持夜视功能，支持360°全景泊车。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 照片展示（留白区，后续替换为实拍/团建/交付现场） -->
+        <section id="media">
+            <h2 class="section-title" data-aos="fade-up">现场与项目展示</h2>
+            <div class="media-grid">
+                <div class="media-card" data-aos="fade-up">
+                    <div class="media-thumb">
+                        <img src="images/home.png" alt="量产交付现场" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/home.png" data-lightbox-alt="量产交付现场">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        </button>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-title">量产交付现场</h3>
+                        <p class="media-desc">可替换为产线、测试、交付等照片，突出专业与可靠。</p>
+                    </div>
+                </div>
+                <div class="media-card" data-aos="fade-up" data-aos-delay="80">
+                    <div class="media-thumb">
+                        <img src="images/code.png" alt="研发与实验室" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/code.png" data-lightbox-alt="研发与实验室">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        </button>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-title">研发与实验室</h3>
+                        <p class="media-desc">可放实验室设备、测试工装、团队研发场景。</p>
+                    </div>
+                </div>
+                <div class="media-card" data-aos="fade-up" data-aos-delay="160">
+                    <div class="media-thumb">
+                        <img src="images/low.png" alt="团队文化" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/low.png" data-lightbox-alt="团队文化">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        </button>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="media-title">团队文化</h3>
+                        <p class="media-desc">可放团建、培训、展会、客户交流等内容。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品中心 -->
+        <section id="products">
+            <h2 class="section-title" data-aos="fade-up">旗舰产品矩阵</h2>
+            <div class="section-sub" data-aos="fade-up">车规级 · 高算力 · 功能安全</div>
+            <div class="cards-grid">
+                <div class="product-card" data-aos="flip-left">
+                    <div class="product-icon"><i class="fas fa-microchip"></i></div>
+                    <h3>CAN板级通信控制器</h3>
+                    <p>支持CANFD，支持CAN总线故障检测，支持CAN总线故障恢复。</p>
+                </div>
+                <div class="product-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="product-icon"><i class="fas fa-satellite-dish"></i></div>
+                    <h3>5G-V2X T-BOX 2.0</h3>
+                    <p>C-V2X直连通信，高精度定位，国密安全，已适配多家主机厂前装。</p>
+                </div>
+                <div class="product-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="product-icon"><i class="fas fa-eye"></i></div>
+                    <h3>4D毫米波成像雷达</h3>
+                    <p>点云密度提升10倍，探测距离300m，支持高阶自动驾驶感知冗余。</p>
+                </div>
+                <div class="product-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="product-icon"><i class="fas fa-charging-station"></i></div>
+                    <h3>高压BMS电池管理</h3>
+                    <p>ASIL-C级功能安全，高精度SOX估算，延长续航，安全监控。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术优势 核心亮点 -->
+        <section id="tech">
+            <h2 class="section-title" data-aos="fade-up">硬核技术 · 重塑标准</h2>
+            <div class="advantages">
+                <div class="adv-item" data-aos="fade-right"><i class="fas fa-certificate"></i><h3>ISO 26262</h3><p>最高等级功能安全流程</p></div>
+                <div class="adv-item" data-aos="fade-up"><i class="fas fa-code-branch"></i><h3>AUTOSAR架构</h3><p>自适应/经典平台灵活部署</p></div>
+                <div class="adv-item" data-aos="fade-down"><i class="fas fa-lock"></i><h3>国密/HSM</h3><p>端到端信息安全防护</p></div>
+                <div class="adv-item" data-aos="fade-left"><i class="fas fa-cloud-upload-alt"></i><h3>云端一体</h3><p>大数据+AI算法迭代</p></div>
+            </div>
+        </section>
+
+        <!-- 关于我们 -->
+        <section id="about">
+            <h2 class="section-title" data-aos="fade-up">关于达道</h2>
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <p>南京达道电子科技有限公司成立于2018年，总部位于中国南京，是国家级高新技术企业与汽车电子领域专精特新企业。我们深耕智能汽车“新三化”，致力于为全球车企提供领先的域控制器、传感器及车载网联系统。</p>
+                    <p>研发团队占比超70%，核心成员来自国内Tier1与知名车企，拥有完整的A-SPICE开发流程。与多家高校达成战略合作，已获得50+项专利及软著。</p>
+                    <p>达道电子 — 以技术创新驱动未来出行，为更安全、更智能的汽车生态贡献力量。</p>
+                </div>
+                <div class="about-stats" data-aos="fade-left">
+                    <div class="stat-card"><i class="fas fa-flask"></i><div class="stat-number">50+</div><div>研发工程师</div></div>
+                    <div class="stat-card"><i class="fas fa-trophy"></i><div class="stat-number">15+</div><div>行业重磅奖项</div></div>
+                    <div class="stat-card"><i class="fas fa-building"></i><div class="stat-number">1000㎡</div><div>办公区域</div></div>
+                    <div class="stat-card"><i class="fas fa-handshake"></i><div class="stat-number">50+</div><div>量产项目交付</div></div>
+                </div>
+            </div>
+
+            <div class="timeline" data-aos="fade-up">
+                <div class="timeline-title">
+                    <h3>发展历程</h3>
+                    <p>从0到1，再到规模化量产交付</p>
+                </div>
+                <ul class="timeline-list">
+                    <li class="timeline-item" data-aos="fade-up">
+                        <div class="year"><i class="fas fa-flag-checkered"></i> 2018</div>
+                        <p class="desc">公司成立，聚焦MCU产品研发。</p>
+                    </li>
+                    <li class="timeline-item" data-aos="fade-up" data-aos-delay="50">
+                        <div class="year"><i class="fas fa-microchip"></i> 2019</div>
+                        <p class="desc">完成核心平台与工具链建设。</p>
+                    </li>
+                    <li class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="year"><i class="fas fa-project-diagram"></i> 2021</div>
+                        <p class="desc">通过ISO26262流程认证。</p>
+                    </li>
+                    <li class="timeline-item" data-aos="fade-up" data-aos-delay="150">
+                        <div class="year"><i class="fas fa-shield-alt"></i> 2023</div>
+                        <p class="desc">强化功能安全与信息安全体系，推进关键项目量产落地与交付能力建设。</p>
+                    </li>
+                    <li class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="year"><i class="fas fa-rocket"></i> 2025</div>
+                        <p class="desc">面向新一代EE架构持续迭代，规模化量产项目持续增长，服务更多主机厂伙伴。</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 联系板块 -->
+        <section id="contact">
+            <h2 class="section-title" data-aos="fade-up">驱动未来 · 即刻启程</h2>
+            <div class="contact-flex">
+                <div class="contact-info" data-aos="fade-right">
+                    <i class="fas fa-map-marker-alt" style="font-size: 2rem; color: #0a79ff;"></i>
+                    <h3>南京总部</h3>
+                    <p>
+                        <a class="map-link" target="_blank" rel="noopener"
+                           href="https://map.baidu.com/search/%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%822101%E6%88%BF%E9%97%B4%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89">
+                            南京市江宁区铺岗街599号宇通大厦1号楼21层2101房间（江宁开发区）
+                        </a>
+                    </p>
+                    <i class="fas fa-envelope" style="margin-top: 1rem; display: inline-block;"></i> 
+                    <p>contact@dadao-electronics.com</p>
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+86 025-5883 2777</p>
+                    <div style="margin-top: 1.5rem;"><i class="fas fa-clock"></i> 7x24 技术商务支持</div>
+                </div>
+                <div class="contact-form" data-aos="fade-left">
+                    <form id="demoForm">
+                        <div class="input-group"><input type="text" placeholder="您的姓名" required></div>
+                        <div class="input-group"><input type="email" placeholder="电子邮箱" required></div>
+                        <div class="input-group"><input type="text" placeholder="公司名称"></div>
+                        <div class="input-group"><textarea rows="3" placeholder="留言或项目需求..."></textarea></div>
+                        <button type="submit"><i class="fas fa-paper-plane"></i> 发送咨询</button>
+                        <p style="font-size: 0.7rem; margin-top: 1rem; text-align: center;">我们的团队将在24h内与您取得联系</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效</p>
+            <p style="margin-top: 0.8rem;">
+                <i class="fab fa-weixin"></i>
+                <a class="qr-trigger" href="javascript:void(0)"
+                   data-lightbox-src="images/code.png"
+                   data-lightbox-alt="官方公众号二维码">
+                    官方公众号
+                </a>
+                &nbsp;&nbsp;
+                <i class="fab fa-linkedin"></i> 领英
+            </p>
+        </footer>
+    </div>
+
+    <!-- 脚本区: 粒子背景 + 导航交互 + AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/particles.js?v=4"></script>
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="图片预览">
+            <button class="lightbox-close" type="button" id="lightboxClose" aria-label="关闭">
+                <i class="fas fa-times"></i>
+            </button>
+            <img class="lightbox-img" id="lightboxImg" alt="">
         </div>
     </div>
-    <div class="scroll-hint">
-        <span>SCROLL</span>
-        <div class="scroll-hint-line"></div>
-    </div>
-</section>
-
-<!-- ── MARQUEE ── -->
-<div class="marquee-divider">
-    <div class="marquee-track" id="marqueeTrack"></div>
-</div>
-
-<!-- ── ABOUT ── -->
-<section id="about">
-    <div class="about-inner">
-        <div class="about-text-col reveal">
-            <p class="section-label">关于我们</p>
-            <h2 class="section-title">驱动未来<br><span class="accent">智能出行</span></h2>
-            <p>达道电子科技有限公司是一家专注于汽车电子领域的高科技企业，致力于为汽车制造商和消费者提供创新的智能解决方案。</p>
-            <p>我们的核心业务涵盖汽车音响系统、车载控制器、智能座舱系统等产品的研发、生产与销售，以技术驱动行业变革。</p>
-            <div class="about-stats">
-                <div class="stat-box">
-                    <div class="stat-num">10<span>+</span></div>
-                    <div class="stat-desc">年行业深耕经验</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">50<span>+</span></div>
-                    <div class="stat-desc">合作品牌客户</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">200<span>+</span></div>
-                    <div class="stat-desc">核心技术专利</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">24<span>/7</span></div>
-                    <div class="stat-desc">技术支持服务</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="carousel-wrap reveal">
-            <div class="carousel-track">
-                <div class="carousel-slide active">
-                    <img src="images/bl1.png" alt="产品展示1">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">PRODUCT / 01</div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="images/bl2.png" alt="产品展示2">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">PRODUCT / 02</div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="images/bl3.png" alt="产品展示3">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">PRODUCT / 03</div>
-                </div>
-            </div>
-            <div class="carousel-dots">
-                <span class="c-dot active" data-i="0"></span>
-                <span class="c-dot" data-i="1"></span>
-                <span class="c-dot" data-i="2"></span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── CONTACT ── -->
-<section id="contact">
-    <div class="contact-inner reveal">
-        <p class="section-label">联系我们</p>
-        <h2 class="section-title">随时<span class="accent">沟通</span></h2>
-        <div class="contact-grid">
-            <div class="contact-card" id="qrcodeBtn">
-                <div class="contact-card-icon"><i class="fab fa-weixin"></i></div>
-                <div class="contact-card-body">
-                    <h4>微信公众号</h4>
-                    <p>达道科技 — 点击查看二维码</p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
-                <div class="contact-card-body">
-                    <h4>联系电话</h4>
-                    <p>025-51190961</p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
-                <div class="contact-card-body">
-                    <h4>电子邮箱</h4>
-                    <p>postmaster@nanjingdadao.com</p>
-                </div>
-            </div>
-            <div class="contact-card" onclick="window.open('https://api.map.baidu.com/geocoder?address=南京市江宁区铺岗街599号宇通大厦1号楼21层&output=html','_blank')">
-                <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="contact-card-body">
-                    <h4>公司地址</h4>
-                    <p>南京市江宁区铺岗街599号<br>宇通大厦1号楼21层</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-    <div class="footer-logo">
-        <img src="images/公司logo.jpg" alt="logo">
-        <span>达道电子科技有限公司</span>
-    </div>
-    <p class="footer-copy">© 2025 DADAO ELECTRONICS. ALL RIGHTS RESERVED.</p>
-</footer>
-
-<!-- ── QR MODAL ── -->
-<div class="modal-backdrop" id="qrModal">
-    <div class="modal-box">
-        <button class="modal-close" id="qrClose">&times;</button>
-        <img src="images/code.png" alt="微信公众号二维码">
-        <h3>扫码关注 · 达道科技</h3>
-    </div>
-</div>
-
-<script>
-    /* Nav scroll */
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    /* Hamburger */
-    const toggle = document.getElementById('navToggle');
-    const drawer = document.getElementById('navDrawer');
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        drawer.classList.toggle('open');
-    });
-    drawer.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
-        toggle.classList.remove('open');
-        drawer.classList.remove('open');
-    }));
-
-    /* Smooth scroll */
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-            const t = document.querySelector(a.getAttribute('href'));
-            if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    <script>
+        // 初始化AOS滚动动画
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
         });
-    });
+        
+        // ----- 导航栏交互 + 平滑滚动 + active高亮-----
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('section');
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navLinksDiv = document.getElementById('navLinks');
+        
+        function removeActive() {
+            navItems.forEach(item => item.classList.remove('active'));
+        }
+        
+        function setActiveBasedOnScroll() {
+            let scrollPos = window.scrollY + 120;
+            sections.forEach(sec => {
+                const top = sec.offsetTop;
+                const bottom = top + sec.offsetHeight;
+                if (scrollPos >= top && scrollPos < bottom) {
+                    let id = sec.getAttribute('id');
+                    removeActive();
+                    document.querySelector(`.nav-item[href="#${id}"]`)?.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', setActiveBasedOnScroll);
+        
+        // 平滑滚动
+        navItems.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId !== '#') {
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // 关闭移动端菜单
+                        if (navLinksDiv.classList.contains('show')) navLinksDiv.classList.remove('show');
+                    }
+                }
+            });
+        });
+        
+        mobileBtn.addEventListener('click', () => {
+            navLinksDiv.classList.toggle('show');
+        });
 
-    /* Marquee content */
-    const items = ['汽车音响系统','车载控制器','智能座舱','ADAS集成','车联网模块','数字仪表盘','无线充电','音频处理器'];
-    const track = document.getElementById('marqueeTrack');
-    let html = '';
-    for (let i = 0; i < 3; i++) {
-        items.forEach(item => { html += `<span class="marquee-item"><b>${item}</b></span>`; });
-    }
-    track.innerHTML = html;
+        // ----- 轻量图片预览 Lightbox -----
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        let lastFocusEl = null;
 
-    /* Carousel */
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots   = document.querySelectorAll('.c-dot');
-    let cur = 0, timer;
-    function showSlide(n) {
-        slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
-        cur = n;
-        slides[cur].classList.add('active'); dots[cur].classList.add('active');
-    }
-    function nextSlide() { showSlide((cur + 1) % slides.length); }
-    dots.forEach(d => d.addEventListener('click', () => { clearInterval(timer); showSlide(+d.dataset.i); timer = setInterval(nextSlide, 4500); }));
-    timer = setInterval(nextSlide, 4500);
+        function openLightbox(src, alt) {
+            if (!lightbox || !lightboxImg) return;
+            lastFocusEl = document.activeElement;
+            lightboxImg.src = src;
+            lightboxImg.alt = alt || '图片预览';
+            lightbox.classList.add('show');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            lightboxClose?.focus?.();
+        }
 
-    /* QR Modal */
-    document.getElementById('qrcodeBtn').addEventListener('click', () => document.getElementById('qrModal').classList.add('open'));
-    document.getElementById('qrClose').addEventListener('click', () => document.getElementById('qrModal').classList.remove('open'));
-    document.getElementById('qrModal').addEventListener('click', e => { if (e.target === document.getElementById('qrModal')) document.getElementById('qrModal').classList.remove('open'); });
+        function closeLightbox() {
+            if (!lightbox || !lightboxImg) return;
+            lightbox.classList.remove('show');
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+            lastFocusEl?.focus?.();
+        }
 
-    /* Scroll reveal */
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest?.('[data-lightbox-src]');
+            if (btn) {
+                const src = btn.getAttribute('data-lightbox-src');
+                const alt = btn.getAttribute('data-lightbox-alt') || '';
+                if (src) openLightbox(src, alt);
+                return;
+            }
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        lightboxClose?.addEventListener('click', closeLightbox);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox?.classList.contains('show')) closeLightbox();
+        });
+        
+        // 表单简单提示 (炫酷通知)
+        const demoForm = document.getElementById('demoForm');
+        if(demoForm) {
+            demoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('✨ 感谢联系达道电子！我们的汽车电子专家将尽快与您探讨未来合作。');
+                demoForm.reset();
+            });
+        }
+        
+        // 初始化主动触发一次高亮
+        setTimeout(setActiveBasedOnScroll, 100);
+    </script>
 </body>
 </html>
