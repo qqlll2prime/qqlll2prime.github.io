@@ -3,826 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.baidu.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
     <link rel="icon" type="image/jpeg" href="images/公司logo.jpg">
-    <title>达道科技电子有限公司 - 智能汽车电子解决方案专家</title>
+    <title>达道电子科技 — 智能汽车电子解决方案</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --red: #E8001C;
+            --red-dim: rgba(232,0,28,.18);
+            --white: #f2f2f0;
+            --off-white: #c8c8c4;
+            --dark: #080809;
+            --dark2: #0f0f11;
+            --dark3: #161618;
+            --border: rgba(255,255,255,.07);
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body: 'Noto Sans SC', sans-serif;
+            --font-mono: 'Space Mono', monospace;
         }
 
-        :root {
-            --primary-color: #ff3850;
-            --secondary-color: #2c3e50;
-            --text-color: #333;
-            --light-text: #fff;
-            --bg-color: #f5f5f5;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: url('images/home.png') no-repeat center center fixed;
-            background-size: cover;
+            background: var(--dark);
+            color: var(--white);
+            font-family: var(--font-body);
             overflow-x: hidden;
-            position: relative;
+            cursor: default;
         }
 
-        body::before {
+        /* ── Noise overlay ── */
+        body::after {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(26, 35, 126, 0.85) 0%, rgba(13, 71, 161, 0.85) 50%, rgba(1, 87, 155, 0.85) 100%);
-            z-index: -1;
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: .028;
+            pointer-events: none;
+            z-index: 9999;
         }
 
-        /* ===== 导航栏 ===== */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.97);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* ═══════════════ NAV ═══════════════ */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            padding: 0 clamp(1.5rem, 5vw, 3.5rem);
+            height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: background .4s, border-color .4s;
         }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 1.5rem;
+        nav.scrolled {
+            background: rgba(8,8,9,.88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
         }
 
         .nav-logo {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center; gap: 10px;
             text-decoration: none;
-            flex-shrink: 0;
         }
-
         .nav-logo img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            margin-right: 8px;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.15);
         }
-
-        .nav-logo span {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            white-space: nowrap;
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            letter-spacing: .06em;
+            color: var(--white);
         }
+        .nav-logo-text span { color: var(--red); }
 
         .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
+            display: flex; gap: .25rem; align-items: center;
         }
-
         .nav-link {
-            text-decoration: none;
-            color: var(--text-color);
+            font-size: .82rem;
             font-weight: 500;
-            padding: 0.4rem 0.75rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            white-space: nowrap;
+            letter-spacing: .08em;
+            color: var(--off-white);
+            text-decoration: none;
+            padding: .45rem .9rem;
+            border-radius: 4px;
+            transition: color .25s, background .25s;
         }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--primary-color);
-            background: rgba(255, 56, 80, 0.1);
+        .nav-link:hover { color: var(--white); background: rgba(255,255,255,.06); }
+        .nav-link.cta {
+            color: var(--white);
+            background: var(--red);
+            padding: .45rem 1.1rem;
         }
+        .nav-link.cta:hover { background: #c0001a; }
 
-        /* 汉堡菜单按钮（手机端显示） */
         .nav-toggle {
             display: none;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-            padding: 6px;
-            background: none;
-            border: none;
-            -webkit-tap-highlight-color: transparent;
+            flex-direction: column; gap: 5px;
+            cursor: pointer; background: none; border: none; padding: 6px;
         }
-
         .nav-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--secondary-color);
-            border-radius: 2px;
-            transition: all 0.3s ease;
+            display: block; width: 22px; height: 2px;
+            background: var(--white); border-radius: 2px;
+            transition: .3s;
         }
-
         .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .nav-toggle.open span:nth-child(2) { opacity: 0; }
         .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-        /* 手机端下拉菜单 */
         .nav-drawer {
-            display: none;
-            flex-direction: column;
-            padding: 0.5rem 1.5rem 1rem;
-            background: rgba(255, 255, 255, 0.97);
-            border-top: 1px solid rgba(0,0,0,0.06);
+            display: none; flex-direction: column;
+            position: absolute; top: 64px; left: 0; width: 100%;
+            background: rgba(8,8,9,.96);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            padding: .75rem 1.5rem 1.25rem;
         }
+        .nav-drawer.open { display: flex; }
+        .nav-drawer .nav-link { padding: .75rem .5rem; border-bottom: 1px solid var(--border); font-size: .95rem; }
+        .nav-drawer .nav-link:last-child { border: none; }
 
-        .nav-drawer.open {
-            display: flex;
-        }
-
-        .nav-drawer .nav-link {
-            padding: 0.65rem 0.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            font-size: 1rem;
-        }
-
-        .nav-drawer .nav-link:last-child {
-            border-bottom: none;
-        }
-
-        /* ===== Hero ===== */
+        /* ═══════════════ HERO ═══════════════ */
         .hero {
             position: relative;
-            min-height: 80vh;
-            background: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 100svh;
+            display: flex; align-items: center; justify-content: center;
             text-align: center;
-            color: var(--light-text);
             overflow: hidden;
-            margin-top: 60px;
-            padding: 2rem 1rem;
+            padding: 0 1.5rem;
         }
 
-        .hero::before {
-            content: '';
+        /* Animated grid bg */
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+        }
+
+        /* Red glow orb */
+        .hero-orb {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, rgba(25, 118, 210, 0.1), rgba(3, 169, 244, 0.1));
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-            z-index: 1;
-        }
-
-        @keyframes gradientAnimation {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .floating-icons {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .floating-icon {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.3);
-            animation: float 20s infinite linear;
-            z-index: 1;
-        }
-
-        @keyframes float {
-            0%   { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
-            10%  { opacity: 1; }
-            90%  { opacity: 1; }
-            100% { transform: translate(0, -100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .hero-content {
-            max-width: 720px;
-            width: 100%;
-            padding: 2.5rem 1.5rem;
-            z-index: 2;
-            position: relative;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            animation: fadeInUp 1.5s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .company-logo {
-            width: 90px;
-            height: 90px;
+            width: clamp(300px, 60vw, 800px);
+            height: clamp(300px, 60vw, 800px);
             border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: block;
-            box-shadow: 0 0 20px rgba(255, 56, 80, 0.3);
-            animation: rotateLogo 30s linear infinite;
+            background: radial-gradient(circle, rgba(232,0,28,.22) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            animation: orbPulse 6s ease-in-out infinite;
+        }
+        @keyframes orbPulse {
+            0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .7; }
+            50%      { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
         }
 
-        @keyframes rotateLogo {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
-        }
-
-        .company-name {
-            font-size: clamp(1.6rem, 5vw, 2.8rem);
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(255, 56, 80, 0.5), 0 0 20px rgba(255, 56, 80, 0.3);
-            position: relative;
-            display: inline-block;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255,56,80,.5), 0 0 20px rgba(255,56,80,.3); }
-            to   { text-shadow: 0 0 20px rgba(255,56,80,.7), 0 0 30px rgba(255,56,80,.5); }
-        }
-
-        .company-name::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-            animation: lineWidth 3s ease-in-out infinite;
-        }
-
-        @keyframes lineWidth {
-            0%,100% { width: 0; left: 50%; }
-            50%      { width: 100%; left: 0; }
-        }
-
-        .slogan {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            margin-bottom: 1.5rem;
-            color: var(--light-text);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 0.85rem 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 1.5rem;
-            transition: background-color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .cta-button:hover { background-color: #e62e43; }
-
-        /* ===== 关于我们 ===== */
-        .about-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3.5rem 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, rgba(25, 118, 210, 0.05), rgba(3, 169, 244, 0.05));
+        /* Scan line */
+        .hero-scanline {
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
             pointer-events: none;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        .hero-content { position: relative; z-index: 2; max-width: 860px; }
+
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: clamp(.65rem, 1.5vw, .8rem);
+            letter-spacing: .22em;
+            color: var(--red);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp .8s .3s forwards;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 11vw, 10rem);
+            line-height: .92;
+            letter-spacing: .01em;
+            color: var(--white);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeUp .9s .5s forwards;
+        }
+        .hero-title .accent { color: var(--red); }
+
+        .hero-sub {
+            font-size: clamp(.95rem, 2vw, 1.15rem);
+            color: var(--off-white);
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+            opacity: 0;
+            animation: fadeUp .9s .7s forwards;
+        }
+
+        .hero-buttons {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp .9s .9s forwards;
+        }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: .8rem 1.8rem;
+            font-family: var(--font-body);
+            font-size: .9rem;
+            font-weight: 500;
+            letter-spacing: .06em;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: .25s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+        }
+        .btn-primary:hover { background: #c0001a; transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,.25);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.5); transform: translateY(-2px); }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            opacity: 0; animation: fadeIn 1s 1.5s forwards;
+            color: rgba(255,255,255,.3); font-size: .72rem; letter-spacing: .12em;
+            font-family: var(--font-mono);
+        }
+        .scroll-hint-line {
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, var(--red), transparent);
+            animation: lineAnim 2s 1.5s ease-in-out infinite;
+        }
+        @keyframes lineAnim {
+            0%,100% { opacity: .3; transform: scaleY(1); }
+            50%      { opacity: 1; transform: scaleY(1.2); }
+        }
+
+        /* ═══════════════ SECTIONS SHARED ═══════════════ */
+        section { padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3.5rem); }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            letter-spacing: .22em;
+            color: var(--red);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex; align-items: center; gap: .75rem;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1; max-width: 60px; height: 1px;
+            background: var(--red);
         }
 
         .section-title {
-            font-size: clamp(1.6rem, 4vw, 2.5rem);
-            color: var(--secondary-color);
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1;
+            letter-spacing: .01em;
             margin-bottom: 1.5rem;
-            text-align: center;
+        }
+        .section-title .accent { color: var(--red); }
+
+        /* ═══════════════ ABOUT ═══════════════ */
+        #about { background: var(--dark2); }
+
+        .about-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
         }
 
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+        .about-text-col p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--off-white);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
         }
 
-        .about-logo {
-            flex-shrink: 0;
-            width: 180px;
-            height: 180px;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+        .about-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+            margin-top: 2.5rem;
         }
-
-        .about-logo:hover { transform: scale(1.05); }
-
-        .about-text { flex: 1; line-height: 1.8; }
-
-        /* ===== 图片轮播 ===== */
-        .image-showcase {
-            margin: 2.5rem auto;
-            max-width: 1000px;
-        }
-
-        .showcase-container {
-            position: relative;
-            width: 100%;
-            padding-top: 45%;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .showcase-image {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .showcase-image.active { opacity: 1; }
-
-        .showcase-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-top: 1.25rem;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        /* ===== 联系+合作 区域 ===== */
-        .partners-contact-section {
-            padding: 3.5rem 1.5rem;
-            color: var(--light-text);
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(45deg, rgba(0, 0, 0, 0.92), rgba(40, 40, 40, 0.92));
-        }
-
-        .partners-contact-container {
-            display: flex;
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .partners-wrapper { flex: 2; }
-        .contact-wrapper  { flex: 1; min-width: 260px; }
-
-        /* 合作伙伴 */
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-            justify-items: center;
-        }
-
-        .partner-item {
-            text-align: center;
-            transition: all 0.4s ease;
-            padding: 0.7rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+        .stat-box {
+            padding: 1.5rem;
+            background: var(--dark3);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-box::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: var(--red);
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            line-height: 1;
+            color: var(--white);
+            margin-bottom: .4rem;
+        }
+        .stat-num span { color: var(--red); }
+        .stat-desc { font-size: .8rem; color: var(--off-white); letter-spacing: .05em; }
+
+        /* Carousel */
+        .carousel-wrap {
+            position: relative; border-radius: 12px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 24px 80px rgba(0,0,0,.6);
+        }
+        .carousel-track { position: relative; width: 100%; padding-top: 60%; }
+        .carousel-slide {
+            position: absolute; inset: 0;
+            opacity: 0; transition: opacity .6s;
+        }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(8,8,9,.8) 0%, transparent 60%);
+        }
+        .carousel-caption {
+            position: absolute; bottom: 1.5rem; left: 1.5rem;
+            font-family: var(--font-mono); font-size: .72rem;
+            letter-spacing: .1em; color: rgba(255,255,255,.5);
+        }
+        .carousel-dots {
+            position: absolute; bottom: 1.5rem; right: 1.5rem;
+            display: flex; gap: .5rem;
+        }
+        .c-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,.25);
+            cursor: pointer; transition: .3s;
+        }
+        .c-dot.active { background: var(--red); width: 18px; border-radius: 3px; }
+
+        /* ═══════════════ DIVIDER ═══════════════ */
+        .marquee-divider {
+            background: var(--red);
+            padding: .9rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-track {
+            display: inline-flex; gap: 3rem;
+            animation: marquee 20s linear infinite;
+        }
+        .marquee-item {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            letter-spacing: .15em;
+            color: rgba(255,255,255,.5);
+        }
+        .marquee-item b { color: #fff; font-weight: 400; }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
         }
 
-        .partner-logo {
-            width: 70px;
-            height: 35px;
-            margin-bottom: 0.5rem;
-            filter: grayscale(100%);
-            transition: all 0.4s ease;
-            object-fit: contain;
-        }
+        /* ═══════════════ CONTACT ═══════════════ */
+        #contact { background: var(--dark3); }
 
-        .partner-item:hover .partner-logo {
-            filter: grayscale(0%);
-            transform: scale(1.05);
-        }
+        .contact-inner { max-width: 1200px; margin: 0 auto; }
 
-        .partner-item p {
-            color: var(--light-text);
-            font-size: 0.78rem;
-            margin-top: 0.3rem;
-            font-weight: 500;
-        }
-
-        /* 联系方式 */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1.25rem;
+            margin-top: 3rem;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            padding: 1.1rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .contact-card {
+            display: flex; align-items: flex-start; gap: 1.1rem;
+            padding: 1.6rem;
+            background: var(--dark2);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transition: border-color .3s, transform .3s;
             cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            word-break: break-all;
+            text-decoration: none;
         }
-
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .contact-card:hover {
+            border-color: var(--red);
             transform: translateY(-3px);
         }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            width: 36px;
-            text-align: center;
+        .contact-card-icon {
+            width: 44px; height: 44px;
+            background: var(--red-dim);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            color: var(--red);
             flex-shrink: 0;
         }
-
-        .contact-info { text-align: left; }
-
-        .contact-info h3 {
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-            color: var(--light-text);
+        .contact-card-body h4 {
+            font-size: .75rem;
+            font-family: var(--font-mono);
+            letter-spacing: .12em;
+            color: var(--off-white);
+            margin-bottom: .4rem;
+            text-transform: uppercase;
+        }
+        .contact-card-body p {
+            font-size: .95rem;
+            color: var(--white);
+            font-weight: 400;
+            line-height: 1.5;
         }
 
-        .contact-info p {
-            font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.4;
+        /* ═══════════════ FOOTER ═══════════════ */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem clamp(1.5rem, 5vw, 3.5rem);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-logo { display: flex; align-items: center; gap: 8px; }
+        .footer-logo img { width: 28px; height: 28px; border-radius: 50%; opacity: .6; }
+        .footer-logo span {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            letter-spacing: .06em;
+            color: rgba(255,255,255,.35);
+        }
+        .footer-copy {
+            font-size: .75rem;
+            font-family: var(--font-mono);
+            color: rgba(255,255,255,.2);
+            letter-spacing: .06em;
         }
 
-        /* 二维码模态框 */
-        .qrcode-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
+        /* ═══════════════ QR MODAL ═══════════════ */
+        .modal-backdrop {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.85); z-index: 2000;
+            justify-content: center; align-items: center;
+        }
+        .modal-backdrop.open { display: flex; }
+        .modal-box {
+            background: var(--dark3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 280px; width: 88%;
+            position: relative; text-align: center;
+        }
+        .modal-box img { width: 100%; border-radius: 6px; }
+        .modal-close {
+            position: absolute; top: 12px; right: 14px;
+            background: none; border: none;
+            color: var(--off-white); font-size: 1.3rem;
+            cursor: pointer; line-height: 1;
+        }
+        .modal-box h3 {
+            font-size: .78rem;
+            font-family: var(--font-mono);
+            letter-spacing: .15em;
+            color: var(--off-white);
+            margin-top: 1rem;
+            text-transform: uppercase;
         }
 
-        .qrcode-modal.active { display: flex; }
-
-        .qrcode-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            position: relative;
-            max-width: 300px;
-            width: 88%;
+        /* ═══════════════ ANIMATIONS ═══════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
 
-        .qrcode-content img { width: 100%; height: auto; display: block; }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 1.5rem;
-            color: #333;
-            cursor: pointer;
-            background: none;
-            border: none;
-            line-height: 1;
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity .7s, transform .7s;
         }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ===== 响应式 ===== */
+        /* ═══════════════ RESPONSIVE ═══════════════ */
         @media (max-width: 900px) {
-            .partners-contact-container {
-                flex-direction: column;
-                gap: 2rem;
-            }
-
-            .partners-wrapper,
-            .contact-wrapper {
-                width: 100%;
-                min-width: unset;
-            }
-
-            .partners-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            .about-inner { grid-template-columns: 1fr; gap: 3rem; }
         }
-
         @media (max-width: 768px) {
-            /* 导航：隐藏横排链接，显示汉堡 */
-            .nav-links  { display: none; }
+            .nav-links { display: none; }
             .nav-toggle { display: flex; }
-
-            .hero { margin-top: 56px; min-height: 75vh; }
-
-            .about-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .about-logo {
-                width: 140px;
-                height: 140px;
-                align-self: center;
-            }
-
-            .partners-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .contact-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 480px) {
-            .hero-content { padding: 1.75rem 1rem; }
-            .company-logo { width: 70px; height: 70px; }
-
-            .about-section  { padding: 2.5rem 1rem; }
-            .partners-contact-section { padding: 2.5rem 1rem; }
-
-            .partners-grid  { grid-template-columns: repeat(2, 1fr); }
-
-            .contact-grid   { grid-template-columns: 1fr; }
-
-            .contact-item   { padding: 0.9rem; }
+            .about-stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 导航栏 -->
-    <nav class="nav-container">
-        <div class="nav-content">
-            <a href="#" class="nav-logo">
-                <img src="images/公司logo.jpg" alt="达道科技logo">
-                <span>达道电子科技</span>
-            </a>
-            <!-- 桌面端横排链接 -->
-            <div class="nav-links">
-                <a href="#"          class="nav-link active">首页</a>
-                <a href="#about"     class="nav-link">公司介绍</a>
-                <a href="products.html" class="nav-link">产品介绍</a>
-                <a href="partners.html" class="nav-link">合作伙伴</a>
-                <a href="#contact"   class="nav-link">联系我们</a>
-            </div>
-            <!-- 手机端汉堡按钮 -->
-            <button class="nav-toggle" id="navToggle" aria-label="菜单">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-        <!-- 手机端抽屉菜单 -->
-        <div class="nav-drawer" id="navDrawer">
-            <a href="#"          class="nav-link active">首页</a>
-            <a href="#about"     class="nav-link">公司介绍</a>
-            <a href="products.html" class="nav-link">产品介绍</a>
-            <a href="partners.html" class="nav-link">合作伙伴</a>
-            <a href="#contact"   class="nav-link">联系我们</a>
-        </div>
-    </nav>
+<!-- ── NAV ── -->
+<nav id="mainNav">
+    <a href="#" class="nav-logo">
+        <img src="images/公司logo.jpg" alt="logo">
+        <span class="nav-logo-text">达道<span>电子</span></span>
+    </a>
+    <div class="nav-links">
+        <a href="#"           class="nav-link">首页</a>
+        <a href="#about"      class="nav-link">关于我们</a>
+        <a href="products.html" class="nav-link">产品介绍</a>
+        <a href="partners.html" class="nav-link">合作伙伴</a>
+        <a href="#contact"    class="nav-link cta">联系我们</a>
+    </div>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <div class="nav-drawer" id="navDrawer">
+        <a href="#"           class="nav-link">首页</a>
+        <a href="#about"      class="nav-link">关于我们</a>
+        <a href="products.html" class="nav-link">产品介绍</a>
+        <a href="partners.html" class="nav-link">合作伙伴</a>
+        <a href="#contact"    class="nav-link">联系我们</a>
+    </div>
+</nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="floating-icons"></div>
-        <div class="hero-content">
-            <img src="images/公司logo.jpg" alt="达道科技logo" class="company-logo">
-            <h1 class="company-name">达道电子科技有限公司</h1>
-            <p class="slogan">智能汽车电子解决方案专家</p>
-            <a href="#about" class="cta-button">了解更多</a>
-        </div>
-    </section>
-
-    <!-- 关于我们 -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <h2 class="section-title">关于我们</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>达道电子科技有限公司是一家专注于汽车电子领域的高科技企业，致力于为汽车制造商和消费者提供创新的智能解决方案。我们的核心业务包括汽车音响系统、车载控制器、智能座舱系统等产品的研发、生产和销售。</p>
-                </div>
-            </div>
-
-            <!-- 轮播图 -->
-            <div class="image-showcase">
-                <div class="showcase-container">
-                    <img src="images/bl1.png" alt="产品展示1" class="showcase-image active">
-                    <img src="images/bl2.png" alt="产品展示2" class="showcase-image">
-                    <img src="images/bl3.png" alt="产品展示3" class="showcase-image">
-                </div>
-                <div class="showcase-dots">
-                    <span class="dot active" data-index="0"></span>
-                    <span class="dot" data-index="1"></span>
-                    <span class="dot" data-index="2"></span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系我们 -->
-    <section id="contact" class="partners-contact-section">
-        <div class="partners-contact-container">
-            <div class="contact-wrapper" style="flex:1;">
-                <h2 class="section-title" style="color:#fff;">联系我们</h2>
-                <div class="contact-grid">
-                    <div class="contact-item" id="qrcodeButton">
-                        <i class="fas fa-qrcode contact-icon"></i>
-                        <div class="contact-info">
-                            <h3>公众号</h3>
-                            <p>达道科技</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone-alt contact-icon"></i>
-                        <div class="contact-info">
-                            <h3>联系电话</h3>
-                            <p>025-51190961</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <div class="contact-info">
-                            <h3>电子邮箱</h3>
-                            <p>postmaster@nanjingdadao.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item" onclick="window.open('https://api.map.baidu.com/geocoder?address=南京市江宁区铺岗街599号宇通大厦1号楼21层&output=html','_blank')">
-                        <i class="fas fa-map-marker-alt contact-icon"></i>
-                        <div class="contact-info">
-                            <h3>公司地址</h3>
-                            <p style="text-decoration:underline;">南京市江宁区铺岗街599号宇通大厦1号楼21层</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 二维码模态框 -->
-    <div class="qrcode-modal" id="qrcodeModal">
-        <div class="qrcode-content">
-            <button class="close-modal">&times;</button>
-            <img src="images/code.png" alt="公众号二维码">
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb"></div>
+    <div class="hero-scanline"></div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">// INTELLIGENT AUTOMOTIVE ELECTRONICS</p>
+        <h1 class="hero-title">达道<br><span class="accent">电子</span><br>科技</h1>
+        <p class="hero-sub">专注汽车电子领域的高科技企业 — 汽车音响系统、车载控制器、智能座舱系统的研发与创新</p>
+        <div class="hero-buttons">
+            <a href="#about"       class="btn btn-primary"><i class="fas fa-chevron-down"></i> 了解更多</a>
+            <a href="products.html" class="btn btn-outline">查看产品</a>
         </div>
     </div>
+    <div class="scroll-hint">
+        <span>SCROLL</span>
+        <div class="scroll-hint-line"></div>
+    </div>
+</section>
 
-    <script>
-        /* 汉堡菜单 */
-        const navToggle = document.getElementById('navToggle');
-        const navDrawer = document.getElementById('navDrawer');
+<!-- ── MARQUEE ── -->
+<div class="marquee-divider">
+    <div class="marquee-track" id="marqueeTrack"></div>
+</div>
 
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('open');
-            navDrawer.classList.toggle('open');
+<!-- ── ABOUT ── -->
+<section id="about">
+    <div class="about-inner">
+        <div class="about-text-col reveal">
+            <p class="section-label">关于我们</p>
+            <h2 class="section-title">驱动未来<br><span class="accent">智能出行</span></h2>
+            <p>达道电子科技有限公司是一家专注于汽车电子领域的高科技企业，致力于为汽车制造商和消费者提供创新的智能解决方案。</p>
+            <p>我们的核心业务涵盖汽车音响系统、车载控制器、智能座舱系统等产品的研发、生产与销售，以技术驱动行业变革。</p>
+            <div class="about-stats">
+                <div class="stat-box">
+                    <div class="stat-num">10<span>+</span></div>
+                    <div class="stat-desc">年行业深耕经验</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">50<span>+</span></div>
+                    <div class="stat-desc">合作品牌客户</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">200<span>+</span></div>
+                    <div class="stat-desc">核心技术专利</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">24<span>/7</span></div>
+                    <div class="stat-desc">技术支持服务</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-wrap reveal">
+            <div class="carousel-track">
+                <div class="carousel-slide active">
+                    <img src="images/bl1.png" alt="产品展示1">
+                    <div class="carousel-overlay"></div>
+                    <div class="carousel-caption">PRODUCT / 01</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/bl2.png" alt="产品展示2">
+                    <div class="carousel-overlay"></div>
+                    <div class="carousel-caption">PRODUCT / 02</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="images/bl3.png" alt="产品展示3">
+                    <div class="carousel-overlay"></div>
+                    <div class="carousel-caption">PRODUCT / 03</div>
+                </div>
+            </div>
+            <div class="carousel-dots">
+                <span class="c-dot active" data-i="0"></span>
+                <span class="c-dot" data-i="1"></span>
+                <span class="c-dot" data-i="2"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+    <div class="contact-inner reveal">
+        <p class="section-label">联系我们</p>
+        <h2 class="section-title">随时<span class="accent">沟通</span></h2>
+        <div class="contact-grid">
+            <div class="contact-card" id="qrcodeBtn">
+                <div class="contact-card-icon"><i class="fab fa-weixin"></i></div>
+                <div class="contact-card-body">
+                    <h4>微信公众号</h4>
+                    <p>达道科技 — 点击查看二维码</p>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="contact-card-body">
+                    <h4>联系电话</h4>
+                    <p>025-51190961</p>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+                <div class="contact-card-body">
+                    <h4>电子邮箱</h4>
+                    <p>postmaster@nanjingdadao.com</p>
+                </div>
+            </div>
+            <div class="contact-card" onclick="window.open('https://api.map.baidu.com/geocoder?address=南京市江宁区铺岗街599号宇通大厦1号楼21层&output=html','_blank')">
+                <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="contact-card-body">
+                    <h4>公司地址</h4>
+                    <p>南京市江宁区铺岗街599号<br>宇通大厦1号楼21层</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+    <div class="footer-logo">
+        <img src="images/公司logo.jpg" alt="logo">
+        <span>达道电子科技有限公司</span>
+    </div>
+    <p class="footer-copy">© 2025 DADAO ELECTRONICS. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<!-- ── QR MODAL ── -->
+<div class="modal-backdrop" id="qrModal">
+    <div class="modal-box">
+        <button class="modal-close" id="qrClose">&times;</button>
+        <img src="images/code.png" alt="微信公众号二维码">
+        <h3>扫码关注 · 达道科技</h3>
+    </div>
+</div>
+
+<script>
+    /* Nav scroll */
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* Hamburger */
+    const toggle = document.getElementById('navToggle');
+    const drawer = document.getElementById('navDrawer');
+    toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        drawer.classList.toggle('open');
+    });
+    drawer.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+        toggle.classList.remove('open');
+        drawer.classList.remove('open');
+    }));
+
+    /* Smooth scroll */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const t = document.querySelector(a.getAttribute('href'));
+            if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
         });
+    });
 
-        navDrawer.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('open');
-                navDrawer.classList.remove('open');
-            });
-        });
+    /* Marquee content */
+    const items = ['汽车音响系统','车载控制器','智能座舱','ADAS集成','车联网模块','数字仪表盘','无线充电','音频处理器'];
+    const track = document.getElementById('marqueeTrack');
+    let html = '';
+    for (let i = 0; i < 3; i++) {
+        items.forEach(item => { html += `<span class="marquee-item"><b>${item}</b></span>`; });
+    }
+    track.innerHTML = html;
 
-        /* 平滑滚动 */
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
+    /* Carousel */
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots   = document.querySelectorAll('.c-dot');
+    let cur = 0, timer;
+    function showSlide(n) {
+        slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+        cur = n;
+        slides[cur].classList.add('active'); dots[cur].classList.add('active');
+    }
+    function nextSlide() { showSlide((cur + 1) % slides.length); }
+    dots.forEach(d => d.addEventListener('click', () => { clearInterval(timer); showSlide(+d.dataset.i); timer = setInterval(nextSlide, 4500); }));
+    timer = setInterval(nextSlide, 4500);
 
-        /* 浮动图标 */
-        function createFloatingIcons() {
-            const container = document.querySelector('.floating-icons');
-            const icons = ['⚡','💻','🔍','📱','🚗','🎵','⚙️','🔧','📊','🎮'];
-            container.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                const icon = document.createElement('div');
-                icon.className = 'floating-icon';
-                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
-                icon.style.left = `${Math.random() * 100}%`;
-                icon.style.fontSize = `${Math.random() * 20 + 10}px`;
-                icon.style.animationDelay = `${Math.random() * 20}s`;
-                icon.style.animationDuration = `${Math.random() * 10 + 15}s`;
-                container.appendChild(icon);
-            }
-        }
-        createFloatingIcons();
-        setInterval(createFloatingIcons, 30000);
+    /* QR Modal */
+    document.getElementById('qrcodeBtn').addEventListener('click', () => document.getElementById('qrModal').classList.add('open'));
+    document.getElementById('qrClose').addEventListener('click', () => document.getElementById('qrModal').classList.remove('open'));
+    document.getElementById('qrModal').addEventListener('click', e => { if (e.target === document.getElementById('qrModal')) document.getElementById('qrModal').classList.remove('open'); });
 
-        /* 图片轮播 */
-        function initImageShowcase() {
-            const images = document.querySelectorAll('.showcase-image');
-            const dots   = document.querySelectorAll('.dot');
-            let current  = 0;
-            let interval;
-
-            function showImage(index) {
-                images.forEach(img => img.classList.remove('active'));
-                dots.forEach(dot   => dot.classList.remove('active'));
-                images[index].classList.add('active');
-                dots[index].classList.add('active');
-                current = index;
-            }
-
-            function next() { showImage((current + 1) % images.length); }
-
-            function startAuto() { interval = setInterval(next, 5000); }
-
-            dots.forEach((dot, i) => dot.addEventListener('click', () => {
-                clearInterval(interval);
-                showImage(i);
-                startAuto();
-            }));
-
-            startAuto();
-
-            const showcase = document.querySelector('.image-showcase');
-            showcase.addEventListener('mouseenter', () => clearInterval(interval));
-            showcase.addEventListener('mouseleave', startAuto);
-        }
-        window.addEventListener('load', initImageShowcase);
-
-        /* 二维码弹窗 */
-        const qrcodeButton = document.getElementById('qrcodeButton');
-        const qrcodeModal  = document.getElementById('qrcodeModal');
-        const closeModal   = document.querySelector('.close-modal');
-
-        qrcodeButton.addEventListener('click', () => qrcodeModal.classList.add('active'));
-        closeModal.addEventListener('click',   () => qrcodeModal.classList.remove('active'));
-        qrcodeModal.addEventListener('click',  e => {
-            if (e.target === qrcodeModal) qrcodeModal.classList.remove('active');
-        });
-
-        /* 滚动动画 */
-        function revealOnScroll() {
-            document.querySelectorAll('.service-card, .partner-item').forEach(el => {
-                const { top, bottom } = el.getBoundingClientRect();
-                if (top < window.innerHeight && bottom >= 0) {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }
-            });
-        }
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load',   revealOnScroll);
-    </script>
+    /* Scroll reveal */
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
