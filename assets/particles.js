@@ -29,15 +29,16 @@
       // sparse mode: a few particles only (leave room for photos/content)
       const base = Math.floor((w * h) / 52000);
       const count = Math.max(12, Math.min(26, base));
-      while (pts.length < count) {
-        // reserved whitespace zones (relative to viewport)
-        const reserved = [
-          { x: w * 0.58, y: h * 0.18, w: w * 0.36, h: h * 0.52 },
-          { x: w * 0.14, y: h * 0.72, w: w * 0.72, h: h * 0.18 },
-        ];
-        const isInReserved = (x, y) =>
-          reserved.some((z) => x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h);
 
+      // reserved whitespace zones (relative to viewport)
+      const reserved = [
+        { x: w * 0.58, y: h * 0.18, w: w * 0.36, h: h * 0.52 },
+        { x: w * 0.14, y: h * 0.72, w: w * 0.72, h: h * 0.18 },
+      ];
+      const isInReserved = (x, y) =>
+        reserved.some((z) => x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h);
+
+      while (pts.length < count) {
         let x = Math.random() * w;
         let y = Math.random() * h;
         let guard = 0;
@@ -60,7 +61,8 @@
 
     function drawParticles() {
       ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = isLightTheme ? "multiply" : "screen";
+      // Light theme: keep it clean and airy; avoid "multiply" muddiness
+      ctx.globalCompositeOperation = isLightTheme ? "source-over" : "screen";
 
       for (const p of pts) {
         p.x += p.vx;
@@ -118,7 +120,7 @@
           const d = Math.sqrt(d2);
           const alpha = (1 - d / maxD) * 0.22;
           ctx.strokeStyle = isLightTheme
-            ? `rgba(0, 120, 255, ${alpha})`
+            ? `rgba(0, 140, 255, ${alpha * 0.85})`
             : `rgba(0, 255, 204, ${alpha})`;
           ctx.lineWidth = 0.9;
           ctx.beginPath();
@@ -132,15 +134,15 @@
       for (const p of pts) {
         // glow halo
         const halo = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 18);
-        halo.addColorStop(0, isLightTheme ? "rgba(0, 120, 255, 0.14)" : "rgba(0, 170, 255, 0.22)");
-        halo.addColorStop(0.55, isLightTheme ? "rgba(0, 255, 210, 0.06)" : "rgba(0, 255, 204, 0.10)");
+        halo.addColorStop(0, isLightTheme ? "rgba(0, 140, 255, 0.16)" : "rgba(0, 170, 255, 0.22)");
+        halo.addColorStop(0.55, isLightTheme ? "rgba(0, 255, 210, 0.07)" : "rgba(0, 255, 204, 0.10)");
         halo.addColorStop(1, "rgba(0, 0, 0, 0)");
         ctx.fillStyle = halo;
         ctx.beginPath();
         ctx.arc(p.x, p.y, 18, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = isLightTheme ? "rgba(0,40,80,0.45)" : "rgba(255,255,255,0.88)";
+        ctx.fillStyle = isLightTheme ? "rgba(0, 120, 255, 0.30)" : "rgba(255,255,255,0.88)";
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
