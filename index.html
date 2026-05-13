@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>南京达道电子科技 | 汽车电子未来架构师</title>
+    <title>达道科技</title><!-- document.title 由 i18n meta.title 同步 -->
     <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -211,11 +211,6 @@
             position: relative;
             white-space: nowrap;
         }
-        .lang-label {
-            font-weight: 700;
-            color: rgba(11, 58, 102, 0.85);
-            letter-spacing: 0.5px;
-        }
         .lang-code {
             display: inline-flex;
             align-items: center;
@@ -232,7 +227,6 @@
         .lang-globe {
             color: rgba(0, 110, 255, 0.80);
             font-size: 0.95rem;
-            margin-left: 0.1rem;
         }
         .lang-select {
             appearance: none;
@@ -259,7 +253,6 @@
             margin-left: 0;
             pointer-events: none;
         }
-
         /* 通用区块样式 */
         section {
             padding: 100px 6%;
@@ -544,12 +537,6 @@
             font-size: 1.15rem;
             color: #0b1b2b;
         }
-        .media-desc {
-            margin: 0;
-            color: #2c4a68;
-            line-height: 1.7;
-            font-size: 0.98rem;
-        }
         @media (max-width: 1000px) {
             .media-card { grid-column: span 6; }
         }
@@ -659,7 +646,7 @@
         }
         .timeline-title {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             justify-content: space-between;
             gap: 1rem;
             flex-wrap: wrap;
@@ -671,10 +658,104 @@
             color: #0b1b2b;
             letter-spacing: -0.5px;
         }
-        .timeline-title p {
-            margin: 0;
-            color: #4d77a7;
-            font-size: 1rem;
+        .timeline-car-scene {
+            position: relative;
+            width: min(380px, 100%);
+            height: 56px;
+            flex-shrink: 0;
+            margin-left: auto;
+            overflow: hidden;
+        }
+        .timeline-car-road {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            height: 5px;
+            border-radius: 6px;
+            z-index: 1;
+            background: linear-gradient(
+                90deg,
+                rgba(0, 180, 255, 0),
+                rgba(0, 130, 255, 0.35) 20%,
+                rgba(0, 200, 255, 0.45) 50%,
+                rgba(0, 130, 255, 0.35) 80%,
+                rgba(0, 180, 255, 0)
+            );
+            box-shadow: 0 0 14px rgba(0, 160, 255, 0.25);
+        }
+        .timeline-car-backdrop {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 22px;
+            height: 26px;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+        }
+        .timeline-car-strip {
+            display: flex;
+            width: max-content;
+            height: 100%;
+            align-items: flex-end;
+            animation: timeline-scn-scroll 10s linear infinite;
+            will-change: transform;
+        }
+        @keyframes timeline-scn-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        .timeline-scn-chunk {
+            display: flex;
+            align-items: flex-end;
+            gap: 2.5rem;
+            padding-right: 2.75rem;
+            color: rgba(11, 58, 102, 0.5);
+            font-size: 1.05rem;
+        }
+        .timeline-scn-chunk i:nth-child(odd) {
+            opacity: 0.72;
+            font-size: 0.95rem;
+        }
+        .timeline-scn-chunk i:nth-child(even) {
+            color: rgba(0, 110, 200, 0.55);
+        }
+        .timeline-car-body {
+            position: absolute;
+            left: clamp(10%, 1.5rem, 26%);
+            bottom: 16px;
+            z-index: 2;
+            font-size: 1.85rem;
+            color: #0a79ff;
+            line-height: 1;
+            filter: drop-shadow(0 3px 10px rgba(0, 120, 255, 0.45));
+            animation: timeline-car-bob 0.7s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        @keyframes timeline-car-bob {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-2px);
+            }
+        }
+        @media (max-width: 640px) {
+            .timeline-title {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .timeline-car-scene {
+                width: 100%;
+                margin-left: 0;
+            }
         }
         .timeline-list {
             position: relative;
@@ -879,13 +960,13 @@
         <!-- 导航栏 -->
         <nav class="navbar">
             <div class="logo">
-                <img class="brand-mark" src="images/公司logo.jpg" alt="达道电子 logo" loading="lazy" decoding="async">
+                <img class="brand-mark" src="images/公司logo.jpg" alt="达道电子 logo" data-i18n-alt="brand.alt" loading="lazy" decoding="async">
                 <div class="brand-text">
-                    <h1>达道电子</h1>
-                    <p>NANJING DADAO ELECTRONICS</p>
+                    <h1 data-i18n="brand.name">达道科技</h1>
+                    <p data-i18n="brand.tagline">NANJING DADAO ELECTRONICS</p>
                 </div>
             </div>
-            <div class="menu-toggle" id="mobileMenuBtn">
+            <div class="menu-toggle" id="mobileMenuBtn" role="button" tabindex="0" data-i18n-aria-label="meta.menuToggleAria" aria-label="打开主导航菜单">
                 <i class="fas fa-bars"></i>
             </div>
             <div class="nav-links" id="navLinks">
@@ -897,15 +978,14 @@
                 <a href="#contact" class="nav-item"><span data-i18n="nav.contact">联系方式</span></a>
             </div>
             <div class="lang-switch" id="langSwitch" role="group" aria-label="Language switcher">
-                <span class="lang-label" data-i18n="lang.label">语言</span>
-                <span class="lang-code" id="langCode" aria-hidden="true">ZH</span>
+                <i class="fas fa-globe lang-globe" aria-hidden="true"></i>
+                <span class="lang-code" id="langCode" aria-hidden="true">CN</span>
+                <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
                 <select class="lang-select" id="langSelect" aria-label="Select language">
-                    <option value="zh-Hans">ZH</option>
-                    <option value="zh-Hant">ZH-TW</option>
+                    <option value="zh-Hans">CN</option>
+                    <option value="zh-Hant">CN-HK</option>
                     <option value="en">EN</option>
                 </select>
-                <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
-                <i class="fas fa-globe lang-globe" aria-hidden="true"></i>
             </div>
         </nav>
 
@@ -964,9 +1044,9 @@
             <div class="media-grid">
                 <div class="media-card" data-aos="fade-up">
                     <div class="media-thumb">
-                        <img src="images/home.png" data-rotate-srcs="images/home.png,images/bl1.png,images/bl2.png,images/bl3.png" data-rotate-interval="3200" alt="量产交付现场" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/home.png" data-lightbox-alt="量产交付现场">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        <img src="images/home.png" data-rotate-srcs="images/home.png,images/bl1.png,images/bl2.png,images/bl3.png" data-rotate-interval="3200" alt="量产交付现场" data-i18n-alt="media.c1.alt" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/home.png" data-i18n-lightbox-alt="media.c1.alt">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
                         </button>
                     </div>
                     <div class="media-body">
@@ -975,9 +1055,9 @@
                 </div>
                 <div class="media-card" data-aos="fade-up" data-aos-delay="80">
                     <div class="media-thumb">
-                        <img src="images/code.png" data-rotate-srcs="images/code.png,images/360.png,images/bl1.png,images/bl2.png" data-rotate-interval="3600" alt="办公环境" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/code.png" data-lightbox-alt="办公环境">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        <img src="images/code.png" data-rotate-srcs="images/code.png,images/360.png,images/bl1.png,images/bl2.png" data-rotate-interval="3600" alt="办公环境" data-i18n-alt="media.c2.alt" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/code.png" data-i18n-lightbox-alt="media.c2.alt">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
                         </button>
                     </div>
                     <div class="media-body">
@@ -986,9 +1066,9 @@
                 </div>
                 <div class="media-card" data-aos="fade-up" data-aos-delay="160">
                     <div class="media-thumb">
-                        <img src="images/low.png" data-rotate-srcs="images/low.png,images/cfmoto.webp,images/奇瑞.webp,images/手机互联.png" data-rotate-interval="4000" alt="团队文化" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/low.png" data-lightbox-alt="团队文化">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> 查看大图
+                        <img src="images/low.png" data-rotate-srcs="images/low.png,images/cfmoto.webp,images/奇瑞.webp,images/手机互联.png" data-rotate-interval="4000" alt="团队文化" data-i18n-alt="media.c3.alt" loading="lazy" decoding="async">
+                        <button class="media-open" type="button" data-lightbox-src="images/low.png" data-i18n-lightbox-alt="media.c3.alt">
+                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
                         </button>
                     </div>
                     <div class="media-body">
@@ -1052,7 +1132,19 @@
             <div class="timeline" data-aos="fade-up">
                 <div class="timeline-title">
                     <h3 data-i18n="timeline.title">发展历程</h3>
-                    <p data-i18n="timeline.sub">从0到1到规模化量产，持续提升交付能力</p>
+                    <div class="timeline-car-scene" aria-hidden="true">
+                        <div class="timeline-car-road"></div>
+                        <div class="timeline-car-backdrop">
+                            <div class="timeline-car-strip">
+                                <span class="timeline-scn-chunk">
+                                    <i class="fas fa-tree"></i><i class="fas fa-building"></i><i class="fas fa-tree"></i><i class="fas fa-industry"></i>
+                                </span><span class="timeline-scn-chunk">
+                                    <i class="fas fa-tree"></i><i class="fas fa-building"></i><i class="fas fa-tree"></i><i class="fas fa-industry"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="timeline-car-body"><i class="fas fa-car-side"></i></div>
+                    </div>
                 </div>
                 <ul class="timeline-list">
                     <li class="timeline-item" data-aos="fade-up">
@@ -1092,6 +1184,8 @@
                             <div>
                                 <p class="footer-contact-value">
                                     <a target="_blank" rel="noopener"
+                                       data-i18n="footer.address"
+                                       data-i18n-href="footer.addressHref"
                                        href="https://api.map.baidu.com/direction?origin=%E5%BD%93%E5%89%8D%E4%BD%8D%E7%BD%AE&destination=%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%82%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89&mode=driving&region=%E5%8D%97%E4%BA%AC&output=html">
                                         南京市江宁区铺岗街599号宇通大厦1号楼21层（江宁开发区）
                                     </a>
@@ -1118,7 +1212,7 @@
                 <i class="fab fa-weixin"></i>
                 <a class="qr-trigger" href="javascript:void(0)"
                    data-lightbox-src="images/code.png"
-                   data-lightbox-alt="官方公众号二维码">
+                   data-i18n-lightbox-alt="footer.wechatQrAlt">
                     <span data-i18n="footer.wechat">官方公众号</span>
                 </a>
                 &nbsp;&nbsp;
@@ -1131,14 +1225,14 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="assets/particles.js?v=5"></script>
     <div class="lightbox" id="lightbox" aria-hidden="true">
-        <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="图片预览">
-            <button class="lightbox-nav lightbox-prev" type="button" id="lightboxPrev" aria-label="上一张">
+        <div class="lightbox-dialog" role="dialog" aria-modal="true" data-i18n-aria-label="lightbox.dialogAria" aria-label="图片预览">
+            <button class="lightbox-nav lightbox-prev" type="button" id="lightboxPrev" data-i18n-aria-label="lightbox.prevAria" aria-label="上一张">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="lightbox-nav lightbox-next" type="button" id="lightboxNext" aria-label="下一张">
+            <button class="lightbox-nav lightbox-next" type="button" id="lightboxNext" data-i18n-aria-label="lightbox.nextAria" aria-label="下一张">
                 <i class="fas fa-chevron-right"></i>
             </button>
-            <button class="lightbox-close" type="button" id="lightboxClose" aria-label="关闭">
+            <button class="lightbox-close" type="button" id="lightboxClose" data-i18n-aria-label="lightbox.closeAria" aria-label="关闭">
                 <i class="fas fa-times"></i>
             </button>
             <img class="lightbox-img" id="lightboxImg" alt="">
@@ -1151,6 +1245,9 @@
             once: true,
             offset: 100
         });
+
+        /** 供 lightbox 等在 i18n 初始化前注册的代码读取当前语言文案（于 loadCache 之后赋值） */
+        let pickI18nText = (key) => "";
 
         // ----- 导航栏交互 + 平滑滚动 + active高亮-----
         const navItems = document.querySelectorAll('.nav-item');
@@ -1204,8 +1301,8 @@
             });
         });
 
-        mobileBtn.addEventListener('click', () => {
-            navLinksDiv.classList.toggle('show');
+        mobileBtn?.addEventListener('click', () => {
+            navLinksDiv?.classList.toggle('show');
         });
 
         // ----- 轻量图片预览 Lightbox -----
@@ -1240,7 +1337,7 @@
             galleryIndex = Math.max(0, galleryList.indexOf(src));
             setGalleryUI(galleryList.length > 1);
             showGalleryAt(galleryIndex);
-            lightboxImg.alt = alt || '图片预览';
+            lightboxImg.alt = alt || pickI18nText("lightbox.fallbackAlt") || "图片预览";
             lightbox.classList.add('show');
             lightbox.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
@@ -1301,6 +1398,128 @@
         // 初始化主动触发一次高亮
         setTimeout(setActiveBasedOnScroll, 100);
 
+        // ----- Hero / About 统计数字：进入视口后从 0 递增至目标（离开视口可再次播放）-----
+        (function initStatCountUps() {
+            /* 数字递增仅改文案、无大幅位移；与常见企业站一致，不因系统「减少动态效果」关闭（该设置主要约束大幅动效） */
+            function collectItems(inner) {
+                const items = [];
+                inner.querySelectorAll(".stat-number").forEach((el) => {
+                    let target;
+                    let suffix = "";
+                    if (el.dataset.countTarget != null) {
+                        target = parseInt(el.dataset.countTarget, 10);
+                        suffix = el.dataset.countSuffix ?? "";
+                    } else {
+                        const raw = el.textContent.trim();
+                        const m = raw.match(/^(\d+)(.*)$/);
+                        if (!m) return;
+                        target = parseInt(m[1], 10);
+                        suffix = m[2] || "";
+                        el.dataset.countTarget = String(target);
+                        el.dataset.countSuffix = suffix;
+                    }
+                    if (!Number.isFinite(target) || target < 0) return;
+                    items.push({ el, target, suffix });
+                });
+                return items;
+            }
+
+            function runCountUp(items) {
+                if (!items.length) return () => {};
+                const duration = 1200;
+                const t0 = performance.now();
+                let raf = 0;
+                let cancelled = false;
+
+                function tick(now) {
+                    if (cancelled) return;
+                    const u = Math.min(1, (now - t0) / duration);
+                    const eased = 1 - (1 - u) * (1 - u);
+                    items.forEach(({ el, target, suffix }) => {
+                        el.textContent = String(Math.round(eased * target)) + suffix;
+                    });
+                    if (u < 1) {
+                        raf = requestAnimationFrame(tick);
+                    } else {
+                        items.forEach(({ el, target, suffix }) => {
+                            el.textContent = String(target) + suffix;
+                        });
+                    }
+                }
+                raf = requestAnimationFrame(tick);
+                return () => {
+                    cancelled = true;
+                    cancelAnimationFrame(raf);
+                };
+            }
+
+            /** 滚动/resize 下用布局矩形判断是否在视口内 */
+            function isStatBlockVisible(el) {
+                if (!el) return false;
+                const r = el.getBoundingClientRect();
+                const vh = window.innerHeight || document.documentElement.clientHeight;
+                const margin = 40;
+                return r.bottom > margin && r.top < vh - margin;
+            }
+
+            function bindStatReveal(wrap) {
+                if (!wrap) return;
+
+                let cancelAnim = () => {};
+                let inView = false;
+                let scrollScheduled = false;
+
+                function resetToZero() {
+                    wrap.querySelectorAll(".stat-number").forEach((el) => {
+                        if (el.dataset.countTarget == null) return;
+                        const suffix = el.dataset.countSuffix ?? "";
+                        el.textContent = "0" + suffix;
+                    });
+                }
+
+                function applyVisibility() {
+                    const nowVisible = isStatBlockVisible(wrap);
+                    if (nowVisible && !inView) {
+                        cancelAnim();
+                        const items = collectItems(wrap);
+                        if (!items.length) return;
+                        resetToZero();
+                        cancelAnim = runCountUp(items);
+                    } else if (!nowVisible && inView) {
+                        cancelAnim();
+                        resetToZero();
+                    }
+                    inView = nowVisible;
+                }
+
+                function onScrollOrResize() {
+                    if (scrollScheduled) return;
+                    scrollScheduled = true;
+                    requestAnimationFrame(() => {
+                        scrollScheduled = false;
+                        applyVisibility();
+                    });
+                }
+
+                window.addEventListener("scroll", onScrollOrResize, { passive: true });
+                window.addEventListener("resize", onScrollOrResize);
+
+                applyVisibility();
+                requestAnimationFrame(() => {
+                    applyVisibility();
+                    requestAnimationFrame(applyVisibility);
+                });
+                window.addEventListener("load", () => {
+                    applyVisibility();
+                });
+                setTimeout(applyVisibility, 400);
+                setTimeout(applyVisibility, 1200);
+            }
+
+            bindStatReveal(document.querySelector("#home .hero-stats"));
+            bindStatReveal(document.querySelector("#about .about-stats"));
+        })();
+
         // ----- Media auto-rotator (现场与项目多图自动切换) -----
         (function initMediaRotators() {
             const reduceMotion =
@@ -1360,6 +1579,11 @@
                 "nav.tech": "技术优势",
                 "nav.about": "关于我们",
                 "nav.contact": "联系方式",
+                "meta.title": "达道科技",
+                "meta.menuToggleAria": "打开主导航菜单",
+                "brand.alt": "达道电子 logo",
+                "brand.name": "达道科技",
+                "brand.tagline": "NANJING DADAO ELECTRONICS",
                 "hero.badge": "汽车电子·全栈解决方案",
                 "hero.title1": "驱动未来出行，",
                 "hero.title2": "智领车联新纪元",
@@ -1381,11 +1605,12 @@
                 "solutions.c4.desc": "4路高清摄像头与超广角拼接，低照优化与标定能力，提供更稳定的360°全景与泊车体验。",
                 "media.title": "现场与项目",
                 "media.c1.title": "量产项目",
-                "media.c1.desc": "建议替换为产线、测试与交付照片，直观呈现工程能力与量产可靠性。",
                 "media.c2.title": "办公环境",
-                "media.c2.desc": "建议展示实验室设备、测试工装与研发场景，突出规范流程与验证体系。",
                 "media.c3.title": "团队文化",
-                "media.c3.desc": "建议展示培训、展会与客户共创场景，呈现开放合作与持续成长。",
+                "media.viewLarge": "查看大图",
+                "media.c1.alt": "量产交付现场",
+                "media.c2.alt": "办公环境",
+                "media.c3.alt": "团队文化",
                 "products.title": "核心技术模块",
                 "products.sub": "围绕智能车载系统、摄像头标定与车机系统能力，提供工程化研发与试验验证服务",
                 "products.m1.title": "平台化智能车载系统",
@@ -1412,8 +1637,6 @@
                 "about.stat.office": "办公区域",
                 "about.stat.delivery": "量产项目交付",
                 "timeline.title": "发展历程",
-                "timeline.sub": "从0到1到规模化量产，持续提升交付能力",
-                "lang.label": "语言",
                 "lang.switcherAria": "语言切换",
                 "lang.selectAria": "选择语言",
                 "timeline.y2016": "公司成立，聚焦MCU产品研发。",
@@ -1422,19 +1645,17 @@
                 "timeline.y2021": "通过ISO26262流程认证。",
                 "timeline.y2023": "通过高新兴企业认证资格。",
                 "timeline.y2025": "入选南京市“瞪羚企业”名单，并获评科技型中小企业及江苏省民营科技企业",
-                "contact.title": "驱动未来 · 即刻启程",
-                "contact.hq": "南京总部",
-                "contact.support": "7x24 技术与商务支持",
-                "form.name": "您的姓名",
-                "form.email": "电子邮箱",
-                "form.company": "公司名称",
-                "form.message": "留言或项目需求...",
-                "form.submit": "发送咨询",
-                "form.note": "我们的团队将在24h内与您取得联系，欢迎留下项目需求",
                 "footer.line1": "© 2025 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效",
+                "footer.address": "南京市江宁区铺岗街599号宇通大厦1号楼21层（江宁开发区）",
+                "footer.addressHref": "https://api.map.baidu.com/direction?origin=%E5%BD%93%E5%89%8D%E4%BD%8D%E7%BD%AE&destination=%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%82%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89&mode=driving&region=%E5%8D%97%E4%BA%AC&output=html",
                 "footer.wechat": "官方公众号",
+                "footer.wechatQrAlt": "官方公众号二维码",
                 "footer.linkedin": "领英",
-                "alert": "✨ 感谢联系达道电子！我们将尽快与您沟通项目需求与合作方式。"
+                "lightbox.dialogAria": "图片预览",
+                "lightbox.prevAria": "上一张",
+                "lightbox.nextAria": "下一张",
+                "lightbox.closeAria": "关闭",
+                "lightbox.fallbackAlt": "图片预览"
             },
             "zh-Hant": {
                 "nav.home": "首頁",
@@ -1443,6 +1664,11 @@
                 "nav.tech": "技術優勢",
                 "nav.about": "關於我們",
                 "nav.contact": "聯繫方式",
+                "meta.title": "達道科技",
+                "meta.menuToggleAria": "開啟主導航選單",
+                "brand.alt": "達道電子 logo",
+                "brand.name": "達道科技",
+                "brand.tagline": "NANJING DADAO ELECTRONICS",
                 "hero.badge": "汽車電子·全棧解決方案",
                 "hero.title1": "驅動未來出行，",
                 "hero.title2": "智領車聯新紀元",
@@ -1464,11 +1690,12 @@
                 "solutions.c4.desc": "4路高清攝像頭與超廣角拼接，低照優化與標定能力，提供更穩定的360°全景與泊車體驗。",
                 "media.title": "現場與專案",
                 "media.c1.title": "量產項目",
-                "media.c1.desc": "建議替換為產線、測試與交付照片，直觀呈現工程能力與量產可靠性。",
                 "media.c2.title": "辦公環境",
-                "media.c2.desc": "建議展示實驗室設備、測試工裝與研發場景，突出規範流程與驗證體系。",
                 "media.c3.title": "團隊文化",
-                "media.c3.desc": "建議展示培訓、展會與客戶共創場景，呈現開放合作與持續成長。",
+                "media.viewLarge": "查看大圖",
+                "media.c1.alt": "量產交付現場",
+                "media.c2.alt": "辦公環境",
+                "media.c3.alt": "團隊文化",
                 "products.title": "核心技術模組",
                 "products.sub": "圍繞智能車載系統、攝像頭標定與車機系統能力，提供工程化研發與試驗驗證服務",
                 "products.m1.title": "平台化智能車載系統",
@@ -1495,8 +1722,6 @@
                 "about.stat.office": "辦公區域",
                 "about.stat.delivery": "量產項目交付",
                 "timeline.title": "發展歷程",
-                "timeline.sub": "從0到1到規模化量產，持續提升交付能力",
-                "lang.label": "語言",
                 "lang.switcherAria": "語言切換",
                 "lang.selectAria": "選擇語言",
                 "timeline.y2016": "公司成立，聚焦MCU產品研發。",
@@ -1505,19 +1730,17 @@
                 "timeline.y2021": "通過ISO26262流程認證。",
                 "timeline.y2023": "通過高新技術企業認證資格。",
                 "timeline.y2025": "入選南京市「瞪羚企業」名單，並獲評科技型中小企業及江蘇省民營科技企業。",
-                "contact.title": "驅動未來 · 即刻啟程",
-                "contact.hq": "南京總部",
-                "contact.support": "7x24 技術與商務支持",
-                "form.name": "您的姓名",
-                "form.email": "電子郵箱",
-                "form.company": "公司名稱",
-                "form.message": "留言或專案需求…",
-                "form.submit": "發送諮詢",
-                "form.note": "我們的團隊將在24h內與您取得聯繫，歡迎留下項目需求",
                 "footer.line1": "© 2025 南京達道電子科技有限公司 | 汽車電子創新驅動者 | 智聯 · 安全 · 高效",
+                "footer.address": "南京市江寧區鋪崗街599號宇通大廈1號樓21層（江寧開發區）",
+                "footer.addressHref": "https://api.map.baidu.com/direction?origin=%E5%BD%93%E5%89%8D%E4%BD%8D%E7%BD%AE&destination=%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%82%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89&mode=driving&region=%E5%8D%97%E4%BA%AC&output=html",
                 "footer.wechat": "官方公眾號",
+                "footer.wechatQrAlt": "官方公眾號二維碼",
                 "footer.linkedin": "領英",
-                "alert": "✨ 感謝聯繫達道電子！我們的汽車電子專家將盡快與您探討未來合作。"
+                "lightbox.dialogAria": "圖片預覽",
+                "lightbox.prevAria": "上一張",
+                "lightbox.nextAria": "下一張",
+                "lightbox.closeAria": "關閉",
+                "lightbox.fallbackAlt": "圖片預覽"
             },
             "en": {
                 "nav.home": "Home",
@@ -1526,6 +1749,11 @@
                 "nav.tech": "Technology",
                 "nav.about": "About",
                 "nav.contact": "Contact",
+                "meta.title": "Dadao Electronics",
+                "meta.menuToggleAria": "Open main navigation menu",
+                "brand.alt": "Dadao Electronics logo",
+                "brand.name": "Dadao Electronics",
+                "brand.tagline": "NANJING DADAO ELECTRONICS",
                 "hero.badge": "Automotive Electronics · Full‑Stack Solutions",
                 "hero.title1": "Powering future mobility,",
                 "hero.title2": "Leading the connected‑car era",
@@ -1547,11 +1775,12 @@
                 "solutions.c4.desc": "4‑camera HD surround view with ultra‑wide stitching, low‑light optimization and calibration capability for a more stable 360° panorama and parking experience.",
                 "media.title": "On‑site & Project",
                 "media.c1.title": "Mass‑production programs",
-                "media.c1.desc": "Replace with production, test and delivery photos to showcase engineering capability and mass‑production reliability.",
                 "media.c2.title": "Office environment",
-                "media.c2.desc": "Show lab equipment, test fixtures and R&D scenes to highlight processes and validation.",
                 "media.c3.title": "Team culture",
-                "media.c3.desc": "Show training, exhibitions and customer co‑creation scenes to reflect open collaboration and continuous growth.",
+                "media.viewLarge": "View full image",
+                "media.c1.alt": "Mass production delivery site",
+                "media.c2.alt": "Office environment",
+                "media.c3.alt": "Team culture",
                 "products.title": "Core Technology Modules",
                 "products.sub": "Engineering R&D and experimental validation across in‑vehicle systems, camera calibration, and infotainment capabilities",
                 "products.m1.title": "Platformized in‑vehicle system",
@@ -1578,8 +1807,6 @@
                 "about.stat.office": "Office space",
                 "about.stat.delivery": "Mass‑production deliveries",
                 "timeline.title": "Milestones",
-                "timeline.sub": "From 0 to 1 to scaled mass production, continuously improving delivery capability",
-                "lang.label": "Language",
                 "lang.switcherAria": "Language switcher",
                 "lang.selectAria": "Select language",
                 "timeline.y2016": "Company founded, focused on MCU product R&D.",
@@ -1588,19 +1815,17 @@
                 "timeline.y2021": "Passed the ISO 26262 process certification.",
                 "timeline.y2023": "Achieved High‑Tech Enterprise certification.",
                 "timeline.y2025": "Awarded Nanjing “Gazelle Enterprise”, and recognized as a technology‑based SME and a Jiangsu private tech enterprise.",
-                "contact.title": "Drive the future · Start now",
-                "contact.hq": "Nanjing HQ",
-                "contact.support": "7x24 technical and business support",
-                "form.name": "Your name",
-                "form.email": "Email",
-                "form.company": "Company",
-                "form.message": "Message or project needs…",
-                "form.submit": "Send inquiry",
-                "form.note": "We will get back to you within 24 hours. Please leave your project requirements.",
                 "footer.line1": "© 2025 Nanjing Dadao Electronics | Automotive electronics innovator | Connected · Safe · Efficient",
+                "footer.address": "21F, Building 1, Yutong Building, 599 Pugang Street, Jiangning Development Zone, Nanjing, Jiangsu, China",
+                "footer.addressHref": "https://www.google.com/maps/search/?api=1&query=21F%2C%20Building%201%2C%20Yutong%20Building%2C%20599%20Pugang%20Street%2C%20Jiangning%20Development%20Zone%2C%20Nanjing%2C%20Jiangsu%2C%20China",
                 "footer.wechat": "Official WeChat",
+                "footer.wechatQrAlt": "Official WeChat QR code",
                 "footer.linkedin": "LinkedIn",
-                "alert": "Thanks for reaching out! We'll contact you soon to align on requirements and cooperation options."
+                "lightbox.dialogAria": "Image preview",
+                "lightbox.prevAria": "Previous image",
+                "lightbox.nextAria": "Next image",
+                "lightbox.closeAria": "Close",
+                "lightbox.fallbackAlt": "Image preview"
             }
         };
 
@@ -1637,6 +1862,15 @@
                 // ignore quota errors
             }
         }
+
+        pickI18nText = function pickI18nTextImpl(key) {
+            const lang = localStorage.getItem("lang") || "zh-Hans";
+            const master = I18N["zh-Hans"] || {};
+            const dict = I18N[lang] || {};
+            const cache = loadCache(lang);
+            const v = (lang === "zh-Hans" ? master[key] : (cache[key] ?? dict[key])) ?? master[key];
+            return v == null ? "" : String(v);
+        };
 
         async function libreTranslateBatch(texts, source, target) {
             // LibreTranslate supports q as string; some deployments support array.
@@ -1691,53 +1925,87 @@
             const dict = I18N[lang] || {};
             const cache = loadCache(lang);
 
-            document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+            document.documentElement.lang =
+                lang === "en" ? "en" : lang === "zh-Hant" ? "zh-Hant" : "zh-CN";
+
+            const getV = (key) =>
+                (lang === "zh-Hans" ? master[key] : (cache[key] ?? dict[key])) ?? master[key];
+
             const codeEl = document.getElementById("langCode");
             if (codeEl) {
-                const code = lang === "en" ? "EN" : (lang === "zh-Hant" ? "ZH-TW" : "ZH");
+                const code = lang === "en" ? "EN" : (lang === "zh-Hant" ? "CN-HK" : "CN");
                 codeEl.textContent = code;
             }
 
-            // language switcher accessibility labels
             const langSwitchEl = document.getElementById("langSwitch");
             if (langSwitchEl) {
-                const label =
-                    (lang === "zh-Hans" ? master["lang.switcherAria"] : (cache["lang.switcherAria"] ?? dict["lang.switcherAria"])) ??
-                    master["lang.switcherAria"];
+                const label = getV("lang.switcherAria");
                 if (label) langSwitchEl.setAttribute("aria-label", label);
             }
             const langSelectEl = document.getElementById("langSelect");
             if (langSelectEl) {
-                const label =
-                    (lang === "zh-Hans" ? master["lang.selectAria"] : (cache["lang.selectAria"] ?? dict["lang.selectAria"])) ??
-                    master["lang.selectAria"];
+                const label = getV("lang.selectAria");
                 if (label) langSelectEl.setAttribute("aria-label", label);
             }
 
-            // 1) render immediately (master -> cache -> dict)
             const missingKeys = [];
-            const setTextByKey = (el, key, isPlaceholder) => {
-                const v =
-                    (lang === "zh-Hans" ? master[key] : (cache[key] ?? dict[key])) ??
-                    master[key];
-                if (v == null) return;
-                if (isPlaceholder) el.setAttribute("placeholder", v);
-                else el.textContent = v;
+            const noteMissing = (key) => {
+                if (lang !== "zh-Hans" && cache[key] == null && dict[key] == null && master[key] != null) {
+                    missingKeys.push(key);
+                }
             };
+
+            const setTextByKey = (el, key) => {
+                const v = getV(key);
+                if (v == null) return;
+                el.textContent = v;
+            };
+
+            const setAttrByKey = (el, attr, key) => {
+                const v = getV(key);
+                if (v == null) return;
+                el.setAttribute(attr, String(v));
+            };
+
+            const setHrefByKey = (el, key) => setAttrByKey(el, "href", key);
+
+            const pageTitle = getV("meta.title");
+            if (pageTitle) document.title = String(pageTitle);
 
             document.querySelectorAll("[data-i18n]").forEach((el) => {
                 const key = el.getAttribute("data-i18n");
                 if (!key) return;
-                setTextByKey(el, key, false);
-                if (lang !== "zh-Hans" && cache[key] == null && dict[key] == null && master[key] != null) {
-                    missingKeys.push(key);
-                }
+                setTextByKey(el, key);
+                noteMissing(key);
             });
 
-            const alertMsg =
-                (lang === "zh-Hans" ? master["alert"] : (cache["alert"] ?? dict["alert"])) ??
-                master["alert"];
-            if (alertMsg) window.__i18nAlertMsg = alertMsg;
+            document.querySelectorAll("[data-i18n-href]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-href");
+                if (!key) return;
+                setHrefByKey(el, key);
+                noteMissing(key);
+            });
+
+            document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-alt");
+                if (!key) return;
+                setAttrByKey(el, "alt", key);
+                noteMissing(key);
+            });
+
+            document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-aria-label");
+                if (!key) return;
+                setAttrByKey(el, "aria-label", key);
+                noteMissing(key);
+            });
+
+            document.querySelectorAll("[data-i18n-lightbox-alt]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-lightbox-alt");
+                if (!key) return;
+                setAttrByKey(el, "data-lightbox-alt", key);
+                noteMissing(key);
+            });
 
             // 2) auto-translate missing (optional)
             if (!AUTO_TRANSLATE) return;
@@ -1762,13 +2030,37 @@
             });
             if (changed) saveCache(lang, cache);
 
-            // re-apply so the UI updates from cache
+            const getCached = (key) =>
+                (lang === "zh-Hans" ? master[key] : (cache[key] ?? dict[key])) ?? master[key];
+
+            const pageTitle2 = getCached("meta.title");
+            if (pageTitle2) document.title = String(pageTitle2);
+
             document.querySelectorAll("[data-i18n]").forEach((el) => {
                 const key = el.getAttribute("data-i18n");
-                if (!key) return;
-                if (cache[key] != null) el.textContent = cache[key];
+                if (!key || cache[key] == null) return;
+                el.textContent = cache[key];
             });
-            if (cache["alert"]) window.__i18nAlertMsg = cache["alert"];
+            document.querySelectorAll("[data-i18n-href]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-href");
+                if (!key || cache[key] == null) return;
+                el.setAttribute("href", cache[key]);
+            });
+            document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-alt");
+                if (!key || cache[key] == null) return;
+                el.setAttribute("alt", cache[key]);
+            });
+            document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-aria-label");
+                if (!key || cache[key] == null) return;
+                el.setAttribute("aria-label", cache[key]);
+            });
+            document.querySelectorAll("[data-i18n-lightbox-alt]").forEach((el) => {
+                const key = el.getAttribute("data-i18n-lightbox-alt");
+                if (!key || cache[key] == null) return;
+                el.setAttribute("data-lightbox-alt", cache[key]);
+            });
         }
 
         const langSelect = document.getElementById("langSelect");
