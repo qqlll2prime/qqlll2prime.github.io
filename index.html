@@ -2,8 +2,11 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="南京达道电子科技 — 智能座舱、车载网联与汽车电子量产交付；解决方案、产品与技术支持。">
     <title>达道科技</title><!-- document.title 由 i18n meta.title 同步 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,6 +17,30 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 0.75rem;
+            top: -120px;
+            z-index: 10001;
+            padding: 0.55rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+            background: linear-gradient(135deg, #0088ff, #0060cc);
+            box-shadow: 0 8px 22px rgba(0, 100, 200, 0.35);
+            text-decoration: none;
+            transition: top 0.18s ease, box-shadow 0.18s ease;
+        }
+        .skip-link:focus {
+            top: 0.75rem;
+            outline: 3px solid rgba(255, 255, 255, 0.95);
+            outline-offset: 2px;
+        }
+        .skip-link:focus:not(:focus-visible) {
+            top: -120px;
         }
 
         body {
@@ -89,7 +116,18 @@
             z-index: 2;
         }
 
-        /* 滚动条自定义 */
+        /* AOS：aos.css 在 JS init 前会把 [data-aos] 设为不可见；脚本缺失或禁动效时需兜底 */
+        html.aos-fallback [data-aos] {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+                pointer-events: auto;
+            }
+        }
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -196,12 +234,14 @@
             margin-left: auto;
         }
 
-        /* 语言切换 */
+        /* 语言切换（中间 CN/EN 相对整颗胶囊居中） */
         .lang-switch {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.45rem 0.7rem;
+            column-gap: 0.35rem;
+            padding: 0.45rem 0.65rem;
+            min-width: 7.25rem;
             border-radius: 999px;
             border: 1px solid rgba(0, 130, 255, 0.18);
             background: rgba(255, 255, 255, 0.60);
@@ -210,53 +250,116 @@
             margin-left: 0.9rem; /* tighter gap after "联系" */
             position: relative;
             white-space: nowrap;
+            z-index: 105;
         }
         .lang-code {
+            grid-column: 2;
+            justify-self: center;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             height: 22px;
-            padding: 0 8px;
+            min-width: 2.75rem;
+            padding: 0 0.35rem;
+            box-sizing: border-box;
             border-radius: 999px;
             border: 1px solid rgba(0, 110, 255, 0.18);
             background: rgba(0, 110, 255, 0.06);
             color: rgba(0, 70, 160, 0.95);
             font-weight: 800;
             font-size: 0.78rem;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.06em;
+            text-align: center;
         }
         .lang-globe {
+            grid-column: 1;
+            justify-self: end;
             color: rgba(0, 110, 255, 0.80);
             font-size: 0.95rem;
         }
-        .lang-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            border: 0;
-            outline: none;
-            background: transparent;
-            font-family: inherit;
-            font-weight: 600;
-            color: #0b2b4b;
-            padding-right: 1.2rem;
-            cursor: pointer;
-            /* hide selected text, keep native dropdown via click */
+        .lang-trigger {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            opacity: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: transparent;
+            cursor: pointer;
+        }
+        .lang-menu {
+            position: absolute;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+            display: grid;
+            grid-template-columns: max-content;
+            width: max-content;
+            top: calc(100% + 6px);
+            margin: 0;
+            padding: 0.28rem 0;
+            list-style: none;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(0, 130, 255, 0.22);
+            border-radius: 10px;
+            box-shadow: 0 12px 28px rgba(10, 45, 90, 0.14);
+            z-index: 1;
+        }
+        .lang-menu[hidden] {
+            display: none !important;
+        }
+        .lang-menu-row {
+            margin: 0;
+            padding: 0;
+        }
+        .lang-option {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0.42rem 0.5rem;
+            border: 0;
+            background: transparent;
+            font: inherit;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            color: #0b2b4b;
+            text-align: center;
+            cursor: pointer;
+        }
+        .lang-option:hover,
+        .lang-option:focus-visible {
+            background: rgba(0, 130, 255, 0.1);
+            outline: none;
+        }
+        .lang-option[aria-selected="true"] {
+            background: rgba(0, 100, 200, 0.14);
+            color: #0044aa;
         }
         .lang-switch .caret {
+            grid-column: 3;
+            justify-self: start;
+            display: inline-block;
             color: rgba(11, 58, 102, 0.65);
             font-size: 0.85rem;
-            margin-left: 0;
             pointer-events: none;
+            transform-origin: 50% 50%;
+            transition: transform 0.22s ease;
         }
-        /* 通用区块样式 */
+        .lang-switch.lang-switch--menu-open .caret {
+            transform: rotate(180deg);
+        }
+        /* 通用区块样式（scroll-margin 抵消 sticky 顶栏，锚点不被遮挡） */
         section {
             padding: 100px 6%;
             position: relative;
+            scroll-margin-top: 5.75rem;
+        }
+        #contact {
+            scroll-margin-top: 5.75rem;
         }
         .section-title {
             font-size: 2.8rem;
@@ -601,17 +704,34 @@
             flex: 1;
             min-width: 200px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.68);
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(10px);
             padding: 2rem 1rem;
-            border-radius: 40px;
-            border-bottom: 2px solid #00ccff;
+            border-radius: 32px;
+            border: 1px solid rgba(0, 120, 255, 0.18);
+            transition: 0.3s;
+        }
+        .adv-item:hover {
+            transform: translateY(-10px);
+            border-color: #00aaff;
+            box-shadow: 0 20px 35px -12px rgba(0, 150, 255, 0.3);
+            background: rgba(255, 255, 255, 0.88);
         }
         .adv-item i {
             font-size: 3rem;
+            display: inline-block;
+            margin-bottom: 1rem;
             background: linear-gradient(145deg, #aaffff, #2288ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+        .adv-item h3 {
+            font-size: 1.7rem;
+            margin: 0.6rem 0 1rem;
+        }
+        .adv-item p {
+            color: #2c4a68;
         }
 
         /* 关于我们区块 */
@@ -634,6 +754,12 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
+        }
+
+        .about-media {
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(0, 140, 255, 0.14);
         }
 
         .timeline {
@@ -892,7 +1018,19 @@
         .map-link:hover {
             color: #0a79ff;
         }
+        .qr-anchor {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            vertical-align: middle;
+        }
         .qr-trigger {
+            border: 0;
+            background: transparent;
+            padding: 0;
+            font: inherit;
+            font-size: inherit;
             color: #0a4fb8;
             text-decoration: underline;
             text-underline-offset: 3px;
@@ -900,6 +1038,37 @@
         }
         .qr-trigger:hover {
             color: #0a79ff;
+        }
+        .qr-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px) scale(0.98);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 14px;
+            border: 1px solid rgba(0, 130, 255, 0.22);
+            box-shadow: 0 14px 40px rgba(10, 45, 90, 0.18);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            z-index: 120;
+        }
+        .qr-tooltip img {
+            display: block;
+            width: min(200px, 72vw);
+            height: auto;
+            border-radius: 8px;
+            vertical-align: middle;
+        }
+        .qr-anchor:hover .qr-tooltip,
+        .qr-anchor:focus-within .qr-tooltip,
+        .qr-anchor.qr-tooltip-open .qr-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
         }
         /* contact form removed */
 
@@ -952,6 +1121,7 @@
     </style>
 </head>
 <body data-theme="light">
+    <a class="skip-link" href="#main" data-i18n="meta.skipToMain">跳到主内容</a>
 
     <!-- 粒子科技背景 Canvas -->
     <canvas id="particle-canvas"></canvas>
@@ -981,14 +1151,15 @@
                 <i class="fas fa-globe lang-globe" aria-hidden="true"></i>
                 <span class="lang-code" id="langCode" aria-hidden="true">CN</span>
                 <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
-                <select class="lang-select" id="langSelect" aria-label="Select language">
-                    <option value="zh-Hans">CN</option>
-                    <option value="zh-Hant">CN-HK</option>
-                    <option value="en">EN</option>
-                </select>
+                <button type="button" class="lang-trigger" id="langTrigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenuList"></button>
+                <ul class="lang-menu" id="langMenuList" role="listbox" hidden>
+                    <li role="none" class="lang-menu-row"><button type="button" class="lang-option" role="option" data-lang="zh-Hans" id="langOptZh">CN</button></li>
+                    <li role="none" class="lang-menu-row"><button type="button" class="lang-option" role="option" data-lang="en" id="langOptEn">EN</button></li>
+                </ul>
             </div>
         </nav>
 
+        <main id="main" tabindex="-1">
         <!-- Hero 主视觉 -->
         <section id="home" class="hero">
             <div class="hero-content" data-aos="fade-right">
@@ -1038,46 +1209,6 @@
             </div>
         </section>
 
-        <!-- 照片展示（留白区，后续替换为实拍/团建/交付现场） -->
-        <section id="media">
-            <h2 class="section-title" data-aos="fade-up" data-i18n="media.title">现场与项目</h2>
-            <div class="media-grid">
-                <div class="media-card" data-aos="fade-up">
-                    <div class="media-thumb">
-                        <img src="images/home.png" data-rotate-srcs="images/home.png,images/bl1.png,images/bl2.png,images/bl3.png" data-rotate-interval="3200" alt="量产交付现场" data-i18n-alt="media.c1.alt" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/home.png" data-i18n-lightbox-alt="media.c1.alt">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
-                        </button>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-title" data-i18n="media.c1.title">量产项目</h3>
-                    </div>
-                </div>
-                <div class="media-card" data-aos="fade-up" data-aos-delay="80">
-                    <div class="media-thumb">
-                        <img src="images/code.png" data-rotate-srcs="images/code.png,images/360.png,images/bl1.png,images/bl2.png" data-rotate-interval="3600" alt="办公环境" data-i18n-alt="media.c2.alt" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/code.png" data-i18n-lightbox-alt="media.c2.alt">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
-                        </button>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-title" data-i18n="media.c2.title">办公环境</h3>
-                    </div>
-                </div>
-                <div class="media-card" data-aos="fade-up" data-aos-delay="160">
-                    <div class="media-thumb">
-                        <img src="images/low.png" data-rotate-srcs="images/low.png,images/cfmoto.webp,images/奇瑞.webp,images/手机互联.png" data-rotate-interval="4000" alt="团队文化" data-i18n-alt="media.c3.alt" loading="lazy" decoding="async">
-                        <button class="media-open" type="button" data-lightbox-src="images/low.png" data-i18n-lightbox-alt="media.c3.alt">
-                            <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
-                        </button>
-                    </div>
-                    <div class="media-body">
-                        <h3 class="media-title" data-i18n="media.c3.title">团队文化</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- 产品中心 -->
         <section id="products">
             <h2 class="section-title" data-aos="fade-up" data-i18n="products.title">核心技术模块</h2>
@@ -1122,10 +1253,49 @@
                     <p data-i18n="about.p3">达道电子 — 以技术创新驱动未来出行，为更安全、更智能的汽车生态贡献力量。</p>
                 </div>
                 <div class="about-stats" data-aos="fade-left">
-                    <div class="stat-card"><i class="fas fa-flask"></i><div class="stat-number">35+</div><div data-i18n="about.stat.engineers">研发工程师</div></div>
+                    <div class="stat-card"><i class="fas fa-users"></i><div class="stat-number">35+</div><div data-i18n="about.stat.engineers">研发工程师</div></div>
                     <div class="stat-card"><i class="fas fa-trophy"></i><div class="stat-number">17+</div><div data-i18n="about.stat.awards">行业重磅奖项</div></div>
                     <div class="stat-card"><i class="fas fa-building"></i><div class="stat-number">1000㎡</div><div data-i18n="about.stat.office">办公区域</div></div>
                     <div class="stat-card"><i class="fas fa-handshake"></i><div class="stat-number">50+</div><div data-i18n="about.stat.delivery">量产项目交付</div></div>
+                </div>
+            </div>
+
+            <!-- 图集（关于我们内，无区块标题） -->
+            <div class="about-media" id="about-media">
+                <div class="media-grid">
+                    <div class="media-card" data-aos="fade-up">
+                        <div class="media-thumb">
+                            <img src="images/home.png" data-rotate-srcs="images/home.png,images/bl1.png,images/bl2.png,images/bl3.png" data-rotate-interval="3200" alt="量产交付现场" data-i18n-alt="media.c1.alt" loading="lazy" decoding="async">
+                            <button class="media-open" type="button" data-lightbox-src="images/home.png" data-i18n-lightbox-alt="media.c1.alt">
+                                <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
+                            </button>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-title" data-i18n="media.c1.title">量产项目</h4>
+                        </div>
+                    </div>
+                    <div class="media-card" data-aos="fade-up" data-aos-delay="80">
+                        <div class="media-thumb">
+                            <img src="images/办公区域/7bf6f160950405e98359eaf02a667c0903e0aa8e2f2d94bbb6155fcdf50fa572412415058ea55f15.jpg" data-rotate-srcs="images/办公区域/7bf6f160950405e98359eaf02a667c0903e0aa8e2f2d94bbb6155fcdf50fa572412415058ea55f15.jpg,images/办公区域/7bf6f160950405e945f227594af4a608f56ed468446cd246b6155fcdf50fa572412415058ea55f15.jpg,images/办公区域/f1ad6e49b83d737b6304b7713236fe45d6dfc8842adeeccaaa18ec96145fd54ce8b6e316c0eb8935.jpg,images/办公区域/f1ad6e49b83d737b6c55c26cfdada726379f8f0103793647aa18ec96145fd54ce8b6e316c0eb8935.jpg" data-rotate-interval="3600" alt="办公环境" data-i18n-alt="media.c2.alt" loading="lazy" decoding="async">
+                            <button class="media-open" type="button" data-lightbox-src="images/办公区域/7bf6f160950405e98359eaf02a667c0903e0aa8e2f2d94bbb6155fcdf50fa572412415058ea55f15.jpg" data-i18n-lightbox-alt="media.c2.alt">
+                                <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
+                            </button>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-title" data-i18n="media.c2.title">办公环境</h4>
+                        </div>
+                    </div>
+                    <div class="media-card" data-aos="fade-up" data-aos-delay="160">
+                        <div class="media-thumb">
+                            <img src="images/low.png" data-rotate-srcs="images/low.png,images/cfmoto.webp,images/奇瑞.webp,images/手机互联.png" data-rotate-interval="4000" alt="团队文化" data-i18n-alt="media.c3.alt" loading="lazy" decoding="async">
+                            <button class="media-open" type="button" data-lightbox-src="images/low.png" data-i18n-lightbox-alt="media.c3.alt">
+                                <i class="fas fa-up-right-and-down-left-from-center"></i> <span data-i18n="media.viewLarge">查看大图</span>
+                            </button>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-title" data-i18n="media.c3.title">团队文化</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1175,6 +1345,8 @@
             </div>
         </section>
 
+        </main>
+
         <footer>
             <div class="footer-contact" id="contact">
                 <div class="footer-contact-inner">
@@ -1195,26 +1367,29 @@
                         <div class="footer-contact-cell">
                             <div class="footer-contact-ico" aria-hidden="true"><i class="fas fa-envelope"></i></div>
                             <div>
-                                <p class="footer-contact-value"><a href="mailto:postmaster@nanjingdadao.com">postmaster@nanjingdadao.com</a></p>
+                                <p class="footer-contact-value">postmaster@nanjingdadao.com</p>
                             </div>
                         </div>
                         <div class="footer-contact-cell">
                             <div class="footer-contact-ico" aria-hidden="true"><i class="fas fa-phone-alt"></i></div>
                             <div>
-                                <p class="footer-contact-value"><a href="tel:+862558832777">025-51190961</a></p>
+                                <p class="footer-contact-value">025-51190961</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <p data-i18n="footer.line1">© 2025 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效</p>
+            <p data-i18n="footer.line1">© 2026 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效</p>
             <p style="margin-top: 0.8rem;">
-                <i class="fab fa-weixin"></i>
-                <a class="qr-trigger" href="javascript:void(0)"
-                   data-lightbox-src="images/code.png"
-                   data-i18n-lightbox-alt="footer.wechatQrAlt">
-                    <span data-i18n="footer.wechat">官方公众号</span>
-                </a>
+                <span class="qr-anchor" id="wechatQrAnchor">
+                    <i class="fab fa-weixin" aria-hidden="true"></i>
+                    <button type="button" class="qr-trigger" id="wechatQrBtn" aria-expanded="false" aria-controls="wechatQrPanel" data-i18n-aria-label="footer.wechatQrHint">
+                        <span data-i18n="footer.wechat">官方公众号</span>
+                    </button>
+                    <span class="qr-tooltip" id="wechatQrPanel" role="img" aria-hidden="true">
+                        <img src="images/code.png" alt="" loading="lazy" decoding="async" data-i18n-alt="footer.wechatQrAlt">
+                    </span>
+                </span>
                 &nbsp;&nbsp;
                 <i class="fab fa-linkedin"></i> <span data-i18n="footer.linkedin">领英</span>
             </p>
@@ -1239,12 +1414,22 @@
         </div>
     </div>
     <script>
-        // 初始化AOS滚动动画
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
+        // 初始化 AOS：必须始终 init（否则 aos.css 会把 [data-aos] 留在不可见状态）。
+        // 系统「减少动态效果」时用 disable 关闭动画而非跳过 init。
+        (function initAOS() {
+            if (typeof AOS === "undefined") {
+                document.documentElement.classList.add("aos-fallback");
+                return;
+            }
+            const reduce =
+                window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            AOS.init({
+                duration: reduce ? 0 : 800,
+                once: true,
+                offset: 100,
+                disable: reduce
+            });
+        })();
 
         /** 供 lightbox 等在 i18n 初始化前注册的代码读取当前语言文案（于 loadCache 之后赋值） */
         let pickI18nText = (key) => "";
@@ -1395,7 +1580,34 @@
             if (e.key === 'ArrowRight') showGalleryAt(galleryIndex + 1);
         });
 
-        // 初始化主动触发一次高亮
+        // ----- 页脚公众号：悬停 / 聚焦 / 点击 显示二维码 -----
+        (function bindWechatQrPopover() {
+            const anchor = document.getElementById("wechatQrAnchor");
+            const btn = document.getElementById("wechatQrBtn");
+            if (!anchor || !btn) return;
+
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const open = !anchor.classList.contains("qr-tooltip-open");
+                anchor.classList.toggle("qr-tooltip-open", open);
+                btn.setAttribute("aria-expanded", open ? "true" : "false");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!anchor.classList.contains("qr-tooltip-open")) return;
+                if (anchor.contains(e.target)) return;
+                anchor.classList.remove("qr-tooltip-open");
+                btn.setAttribute("aria-expanded", "false");
+            });
+
+            window.addEventListener("keydown", (e) => {
+                if (e.key !== "Escape") return;
+                if (!anchor.classList.contains("qr-tooltip-open")) return;
+                anchor.classList.remove("qr-tooltip-open");
+                btn.setAttribute("aria-expanded", "false");
+                btn.focus();
+            });
+        })();
         setTimeout(setActiveBasedOnScroll, 100);
 
         // ----- Hero / About 统计数字：进入视口后从 0 递增至目标（离开视口可再次播放）-----
@@ -1526,7 +1738,7 @@
                 window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             const shouldFade = !reduceMotion;
 
-            const imgs = document.querySelectorAll('#media .media-thumb img[data-rotate-srcs]');
+            const imgs = document.querySelectorAll('#about .media-thumb img[data-rotate-srcs]');
             imgs.forEach((img) => {
                 const raw = img.getAttribute('data-rotate-srcs') || '';
                 const interval = Math.max(1800, Number(img.getAttribute('data-rotate-interval') || '3500'));
@@ -1570,7 +1782,7 @@
             });
         })();
 
-        // ----- i18n 语言切换（简体/繁体/English）-----
+        // ----- i18n 语言切换（简体 / English）-----
         const I18N = {
             "zh-Hans": {
                 "nav.home": "首页",
@@ -1580,6 +1792,7 @@
                 "nav.about": "关于我们",
                 "nav.contact": "联系方式",
                 "meta.title": "达道科技",
+                "meta.skipToMain": "跳到主内容",
                 "meta.menuToggleAria": "打开主导航菜单",
                 "brand.alt": "达道电子 logo",
                 "brand.name": "达道科技",
@@ -1645,102 +1858,18 @@
                 "timeline.y2021": "通过ISO26262流程认证。",
                 "timeline.y2023": "通过高新兴企业认证资格。",
                 "timeline.y2025": "入选南京市“瞪羚企业”名单，并获评科技型中小企业及江苏省民营科技企业",
-                "footer.line1": "© 2025 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效",
+                "footer.line1": "© 2026 南京达道电子科技有限公司 | 汽车电子创新驱动者 | 智联 · 安全 · 高效",
                 "footer.address": "南京市江宁区铺岗街599号宇通大厦1号楼21层（江宁开发区）",
                 "footer.addressHref": "https://api.map.baidu.com/direction?origin=%E5%BD%93%E5%89%8D%E4%BD%8D%E7%BD%AE&destination=%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%82%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89&mode=driving&region=%E5%8D%97%E4%BA%AC&output=html",
                 "footer.wechat": "官方公众号",
                 "footer.wechatQrAlt": "官方公众号二维码",
+                "footer.wechatQrHint": "悬停或点击显示/隐藏公众号二维码",
                 "footer.linkedin": "领英",
                 "lightbox.dialogAria": "图片预览",
                 "lightbox.prevAria": "上一张",
                 "lightbox.nextAria": "下一张",
                 "lightbox.closeAria": "关闭",
                 "lightbox.fallbackAlt": "图片预览"
-            },
-            "zh-Hant": {
-                "nav.home": "首頁",
-                "nav.solutions": "解決方案",
-                "nav.products": "產品中心",
-                "nav.tech": "技術優勢",
-                "nav.about": "關於我們",
-                "nav.contact": "聯繫方式",
-                "meta.title": "達道科技",
-                "meta.menuToggleAria": "開啟主導航選單",
-                "brand.alt": "達道電子 logo",
-                "brand.name": "達道科技",
-                "brand.tagline": "NANJING DADAO ELECTRONICS",
-                "hero.badge": "汽車電子·全棧解決方案",
-                "hero.title1": "驅動未來出行，",
-                "hero.title2": "智領車聯新紀元",
-                "hero.desc": "南京達道電子科技 — 深耕智能座艙、車載網聯與域控制核心部件，面向量產交付提供高可靠、高安全的汽車電子系統與解決方案。",
-                "hero.cta1": "探索合作",
-                "hero.cta2": "旗艦產品",
-                "hero.stat1": "量產專案",
-                "hero.stat2": "主機廠夥伴",
-                "hero.stat3": "功能安全認證",
-                "solutions.title": "前沿解決方案",
-                "solutions.sub": "覆蓋座艙、網聯與控制關鍵鏈路，助力車企快速量產落地",
-                "solutions.c1.title": "智能座艙",
-                "solutions.c1.desc": "車規級高性能SoC平台，多模態交互與沉浸體驗，支援儀表/IVI融合與持續OTA演進。",
-                "solutions.c2.title": "手機互聯",
-                "solutions.c2.desc": "支援有線/無線CarPlay與Android Auto，語音/導航/音樂無縫互聯投屏，支援OTA持續升級與生態適配。",
-                "solutions.c3.title": "車載網關 & T-BOX",
-                "solutions.c3.desc": "中央網關+5G T-BOX，安全OTA與端到端安全體系，支援V2X，打造車端數據與服務入口。",
-                "solutions.c4.title": "360° 高清環視系統",
-                "solutions.c4.desc": "4路高清攝像頭與超廣角拼接，低照優化與標定能力，提供更穩定的360°全景與泊車體驗。",
-                "media.title": "現場與專案",
-                "media.c1.title": "量產項目",
-                "media.c2.title": "辦公環境",
-                "media.c3.title": "團隊文化",
-                "media.viewLarge": "查看大圖",
-                "media.c1.alt": "量產交付現場",
-                "media.c2.alt": "辦公環境",
-                "media.c3.alt": "團隊文化",
-                "products.title": "核心技術模組",
-                "products.sub": "圍繞智能車載系統、攝像頭標定與車機系統能力，提供工程化研發與試驗驗證服務",
-                "products.m1.title": "平台化智能車載系統",
-                "products.m1.desc": "面向不同車型與硬體平台沉澱可復用架構，涵蓋系統整合、性能調優與工程化交付。",
-                "products.m2.title": "攝像頭標定與多攝像頭能力",
-                "products.m2.desc": "聚焦外參標定結果校正、演算法鏈路驗證與多攝像頭後台錄製等關鍵工程能力沉澱。",
-                "products.m3.title": "車機系統與啟用方案",
-                "products.m3.desc": "圍繞 Android 車機系統客製、功能整合與啟用流程，支援量產導入與持續迭代。",
-                "tech.title": "硬核技術 · 可靠交付",
-                "tech.a1.title": "ISO 26262",
-                "tech.a1.desc": "流程合規與安全目標分解，支撐量產級功能安全交付",
-                "tech.a2.title": "AUTOSAR 架構",
-                "tech.a2.desc": "面向不同平台靈活部署，兼顧復用效率與可維護性",
-                "tech.a3.title": "國密/HSM",
-                "tech.a3.desc": "國密/HSM/安全啟動等能力組合，構建端到端信息安全防護",
-                "tech.a4.title": "雲端一體",
-                "tech.a4.desc": "雲端數據閉環與OTA演進，加速功能迭代與體驗優化",
-                "about.title": "關於達道",
-                "about.p1": "南京達道電子科技有限公司成立於2018年，總部位於南京，是國家級高新技術企業，聚焦智能座艙、車載網聯與關鍵控制部件的研發與量產交付。",
-                "about.p2": "研發團隊占比超70%，核心成員來自頭部Tier1與主機廠，具備完整A‑SPICE開發流程與工程化驗證體系；已累計獲得50+項專利及軟著。",
-                "about.p3": "達道電子 — 以可量產的工程能力與持續創新，助力車企打造更安全、更智能的未來出行體驗。",
-                "about.stat.engineers": "研發工程師",
-                "about.stat.awards": "行業重磅獎項",
-                "about.stat.office": "辦公區域",
-                "about.stat.delivery": "量產項目交付",
-                "timeline.title": "發展歷程",
-                "lang.switcherAria": "語言切換",
-                "lang.selectAria": "選擇語言",
-                "timeline.y2016": "公司成立，聚焦MCU產品研發。",
-                "timeline.y2018": "完成MCU核心平台與工具鏈建設。",
-                "timeline.y2019": "完成核心平台與工具鏈建設，打通研發到驗證閉環。",
-                "timeline.y2021": "通過ISO26262流程認證。",
-                "timeline.y2023": "通過高新技術企業認證資格。",
-                "timeline.y2025": "入選南京市「瞪羚企業」名單，並獲評科技型中小企業及江蘇省民營科技企業。",
-                "footer.line1": "© 2025 南京達道電子科技有限公司 | 汽車電子創新驅動者 | 智聯 · 安全 · 高效",
-                "footer.address": "南京市江寧區鋪崗街599號宇通大廈1號樓21層（江寧開發區）",
-                "footer.addressHref": "https://api.map.baidu.com/direction?origin=%E5%BD%93%E5%89%8D%E4%BD%8D%E7%BD%AE&destination=%E5%8D%97%E4%BA%AC%E5%B8%82%E6%B1%9F%E5%AE%81%E5%8C%BA%E9%93%BA%E5%B2%97%E8%A1%97599%E5%8F%B7%E5%AE%87%E9%80%9A%E5%A4%A7%E5%8E%A61%E5%8F%B7%E6%A5%BC21%E5%B1%82%EF%BC%88%E6%B1%9F%E5%AE%81%E5%BC%80%E5%8F%91%E5%8C%BA%EF%BC%89&mode=driving&region=%E5%8D%97%E4%BA%AC&output=html",
-                "footer.wechat": "官方公眾號",
-                "footer.wechatQrAlt": "官方公眾號二維碼",
-                "footer.linkedin": "領英",
-                "lightbox.dialogAria": "圖片預覽",
-                "lightbox.prevAria": "上一張",
-                "lightbox.nextAria": "下一張",
-                "lightbox.closeAria": "關閉",
-                "lightbox.fallbackAlt": "圖片預覽"
             },
             "en": {
                 "nav.home": "Home",
@@ -1750,6 +1879,7 @@
                 "nav.about": "About",
                 "nav.contact": "Contact",
                 "meta.title": "Dadao Electronics",
+                "meta.skipToMain": "Skip to main content",
                 "meta.menuToggleAria": "Open main navigation menu",
                 "brand.alt": "Dadao Electronics logo",
                 "brand.name": "Dadao Electronics",
@@ -1815,11 +1945,12 @@
                 "timeline.y2021": "Passed the ISO 26262 process certification.",
                 "timeline.y2023": "Achieved High‑Tech Enterprise certification.",
                 "timeline.y2025": "Awarded Nanjing “Gazelle Enterprise”, and recognized as a technology‑based SME and a Jiangsu private tech enterprise.",
-                "footer.line1": "© 2025 Nanjing Dadao Electronics | Automotive electronics innovator | Connected · Safe · Efficient",
+                "footer.line1": "© 2026 Nanjing Dadao Electronics | Automotive electronics innovator | Connected · Safe · Efficient",
                 "footer.address": "21F, Building 1, Yutong Building, 599 Pugang Street, Jiangning Development Zone, Nanjing, Jiangsu, China",
                 "footer.addressHref": "https://www.google.com/maps/search/?api=1&query=21F%2C%20Building%201%2C%20Yutong%20Building%2C%20599%20Pugang%20Street%2C%20Jiangning%20Development%20Zone%2C%20Nanjing%2C%20Jiangsu%2C%20China",
                 "footer.wechat": "Official WeChat",
                 "footer.wechatQrAlt": "Official WeChat QR code",
+                "footer.wechatQrHint": "Hover or tap to show or hide the WeChat QR code",
                 "footer.linkedin": "LinkedIn",
                 "lightbox.dialogAria": "Image preview",
                 "lightbox.prevAria": "Previous image",
@@ -1831,7 +1962,7 @@
 
         // ----- Auto translation (optional) -----
         // If you set window.TRANSLATE_ENDPOINT to a LibreTranslate-compatible endpoint,
-        // EN / ZH-TW will be generated from zh-Hans automatically and cached.
+        // EN strings missing from the bundle can be generated from zh-Hans and cached.
         // Example (self-host recommended): window.TRANSLATE_ENDPOINT = "http://localhost:5000/translate"
         const AUTO_TRANSLATE = true;
         const TRANSLATE_ENDPOINT = window.TRANSLATE_ENDPOINT || "";
@@ -1839,7 +1970,6 @@
 
         function langToLibreTarget(lang) {
             if (lang === "en") return "en";
-            if (lang === "zh-Hant") return "zh-Hant";
             return "zh-Hans";
         }
 
@@ -1925,16 +2055,14 @@
             const dict = I18N[lang] || {};
             const cache = loadCache(lang);
 
-            document.documentElement.lang =
-                lang === "en" ? "en" : lang === "zh-Hant" ? "zh-Hant" : "zh-CN";
+            document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
 
             const getV = (key) =>
                 (lang === "zh-Hans" ? master[key] : (cache[key] ?? dict[key])) ?? master[key];
 
             const codeEl = document.getElementById("langCode");
             if (codeEl) {
-                const code = lang === "en" ? "EN" : (lang === "zh-Hant" ? "CN-HK" : "CN");
-                codeEl.textContent = code;
+                codeEl.textContent = lang === "en" ? "EN" : "CN";
             }
 
             const langSwitchEl = document.getElementById("langSwitch");
@@ -1942,11 +2070,15 @@
                 const label = getV("lang.switcherAria");
                 if (label) langSwitchEl.setAttribute("aria-label", label);
             }
-            const langSelectEl = document.getElementById("langSelect");
-            if (langSelectEl) {
+            const langTriggerEl = document.getElementById("langTrigger");
+            if (langTriggerEl) {
                 const label = getV("lang.selectAria");
-                if (label) langSelectEl.setAttribute("aria-label", label);
+                if (label) langTriggerEl.setAttribute("aria-label", label);
             }
+            document.querySelectorAll(".lang-option").forEach((btn) => {
+                const v = btn.getAttribute("data-lang");
+                btn.setAttribute("aria-selected", v === lang ? "true" : "false");
+            });
 
             const missingKeys = [];
             const noteMissing = (key) => {
@@ -2063,19 +2195,60 @@
             });
         }
 
-        const langSelect = document.getElementById("langSelect");
-        const savedLang = localStorage.getItem("lang") || "zh-Hans";
-        if (langSelect) {
-            langSelect.value = savedLang;
-            applyLanguage(savedLang);
-            langSelect.addEventListener("change", () => {
-                const v = langSelect.value || "zh-Hans";
-                localStorage.setItem("lang", v);
-                applyLanguage(v);
+        const langMenu = document.getElementById("langMenuList");
+        const langTrigger = document.getElementById("langTrigger");
+        const langSwitchBar = document.getElementById("langSwitch");
+        if (langMenu && langTrigger && langSwitchBar) {
+            function closeLangMenu() {
+                langMenu.hidden = true;
+                langTrigger.setAttribute("aria-expanded", "false");
+                langSwitchBar.classList.remove("lang-switch--menu-open");
+            }
+            function openLangMenu() {
+                langMenu.hidden = false;
+                langTrigger.setAttribute("aria-expanded", "true");
+                langSwitchBar.classList.add("lang-switch--menu-open");
+            }
+            function toggleLangMenu() {
+                if (langMenu.hidden) openLangMenu();
+                else closeLangMenu();
+            }
+
+            langTrigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                toggleLangMenu();
             });
-        } else {
-            applyLanguage(savedLang);
+
+            langMenu.querySelectorAll(".lang-option").forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const v = btn.getAttribute("data-lang") || "zh-Hans";
+                    localStorage.setItem("lang", v);
+                    applyLanguage(v);
+                    closeLangMenu();
+                    langTrigger.focus();
+                });
+            });
+
+            document.addEventListener("click", closeLangMenu);
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && !langMenu.hidden) {
+                    closeLangMenu();
+                    langTrigger.focus();
+                }
+            });
         }
+
+        const savedLangRaw = localStorage.getItem("lang") || "zh-Hans";
+        if (savedLangRaw === "zh-Hant") {
+            try {
+                localStorage.setItem("lang", "zh-Hans");
+            } catch {
+                /* ignore */
+            }
+        }
+        const savedLang = savedLangRaw === "zh-Hant" ? "zh-Hans" : savedLangRaw;
+        applyLanguage(savedLang);
     </script>
 </body>
 </html>
