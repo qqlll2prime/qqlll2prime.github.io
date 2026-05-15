@@ -1,0 +1,45 @@
+name: Protect CNAME and robots.txt
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-protected-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes to protected files
+        run: |
+          PROTECTED_FILES=("CNAME" "robots.txt")
+
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          elif git rev-parse HEAD~1 >/dev/null 2>&1; then
+            BASE="HEAD~1"
+          else
+            BASE="4b825dc642cb6eb9a060e54bf899d9e27e3a4e3b"
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BASE" HEAD)
+
+          for file in "${PROTECTED_FILES[@]}"; do
+            if echo "$CHANGED_FILES" | grep -Fxq "$file"; then
+              echo "::error::Protected file '$file' has been modified. Changes to this file are not allowed."
+              PROTECTED_FILE_CHANGED=true
+            fi
+          done
+
+          if [ "$PROTECTED_FILE_CHANGED" = "true" ]; then
+            echo ""
+            echo "The following files are protected and cannot be modified:"
+            printf '  - %s\n' "${PROTECTED_FILES[@]}"
+            exit 1
+          fi
+
+          echo "No protected files were changed."
