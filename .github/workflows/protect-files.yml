@@ -1,7 +1,7 @@
 name: Protect CNAME and robots.txt
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 jobs:
@@ -16,7 +16,11 @@ jobs:
         run: |
           PROTECTED_FILES=("CNAME" "robots.txt")
 
-          BASE="origin/${{ github.base_ref }}"
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            BASE="HEAD~1"
+          else
+            BASE="4b825dc642cb6eb9a060e54bf899d9e27e3a4e3b"
+          fi
 
           CHANGED_FILES=$(git diff --name-only "$BASE" HEAD)
 
