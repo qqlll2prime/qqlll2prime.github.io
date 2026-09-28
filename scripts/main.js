@@ -1,6 +1,6 @@
 const myImage = document.querySelector("img");
 
-myImage.onclick = () => {
+myImage.onclick = function() {
   const mySrc = myImage.getAttribute("src");
   if (mySrc === "images/wallpaper/miku.jpg") {
     myImage.setAttribute("src", "images/wallpaper/miku2.jpg");
