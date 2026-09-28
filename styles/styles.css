@@ -1,3 +1,12 @@
+/* 网站字体：霞鹜文楷（LXGW WenKai）子集版，完整 12.6 MB 母版见 font/ */
+@font-face {
+  font-family: "LXGW WenKai";
+  src: url("../font/LXGWWenKai-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 h1 {
     font-size: 99px;
   margin: 0;
@@ -21,8 +30,7 @@ li {
 
 html {
   font-size: 10px; /* px 表示“像素（pixel）”: 基础字号为 10 像素 */
-  font-family:
-    "Open Sans", sans-serif; /* 这应该是你从 Google Fonts 得到的其余输出。 */
+  font-family: "LXGW WenKai", sans-serif;
     background-color: #19836c;
 }
 
